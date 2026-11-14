@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>استبيان الانضمام إلى مايسترو</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Changa:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: one narrow phone column of stacked sections; key fields carry an amber edge that turns green when filled; a sticky bar counts what is left. */
+:root{
+  --bg:#f1f4f3; --surface:#ffffff; --ink:#13242b; --muted:#5a6b71; --line:#d5dedb;
+  --accent:#0d6e69; --accent-ink:#ffffff; --accent-soft:#e0f1ef;
+  --key:#b45309; --key-bg:#fff5e1; --ok:#1c7a4c; --ok-bg:#e8f5ed;
+  --display:"Changa","IBM Plex Sans Arabic",Tahoma,sans-serif;
+  --body:"IBM Plex Sans Arabic","Noto Naskh Arabic",Tahoma,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1619; --surface:#162126; --ink:#e7eeec; --muted:#98aaa8; --line:#2a3a40;
+    --accent:#45bdb2; --accent-ink:#05211f; --accent-soft:#173532;
+    --key:#f0b04a; --key-bg:#2f2510; --ok:#63d199; --ok-bg:#15301f; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1619; --surface:#162126; --ink:#e7eeec; --muted:#98aaa8; --line:#2a3a40;
+  --accent:#45bdb2; --accent-ink:#05211f; --accent-soft:#173532;
+  --key:#f0b04a; --key-bg:#2f2510; --ok:#63d199; --ok-bg:#15301f; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
+.wrap{max-width:560px;margin:0 auto;padding:16px 16px 120px;display:flex;flex-direction:column;gap:14px}
+header{display:flex;flex-direction:column;gap:10px}
+.eyebrow{font-size:13px;color:var(--muted);font-weight:500}
+h1{font-family:var(--display);font-size:26px;line-height:1.25;margin:0;text-wrap:balance}
+h2{font-family:var(--display);font-size:19px;margin:0;display:flex;flex-direction:column}
+h3{font-size:14px;font-weight:600;margin:0;color:var(--muted);display:flex;flex-direction:column}
+.l1{display:block}
+.l2{display:block;font-size:.84em;font-weight:400;color:var(--muted);line-height:1.7}
+.langs{display:flex;flex-wrap:wrap;gap:6px}
+.langs button{font:inherit;font-size:14px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.langs button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+section{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:14px}
+.f{display:flex;flex-direction:column;gap:6px}
+.f.key{border-inline-start:4px solid var(--key);background:var(--key-bg);border-radius:10px;padding:10px 12px}
+.f.key.ok{border-inline-start-color:var(--ok);background:var(--ok-bg)}
+.lab{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;font-weight:600;font-size:15px}
+.tag{flex:none;font-size:12px;font-weight:600;color:var(--key);border:1px solid currentColor;border-radius:999px;padding:0 8px;line-height:1.7}
+.f.key.ok .tag{color:var(--ok)}
+input[type=text],input[type=tel],input[type=url],input[type=number],textarea{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:11px 12px;width:100%;min-height:46px}
+textarea{min-height:76px;resize:vertical}
+input[type=tel],input[type=url],input[type=number]{direction:ltr;text-align:start;font-variant-numeric:tabular-nums}
+[dir=rtl] input[type=tel],[dir=rtl] input[type=url],[dir=rtl] input[type=number]{text-align:end}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.hint{font-size:13px;color:var(--muted)}
+.warn{font-size:13px;color:var(--key);font-weight:500}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:inherit;font-size:15px;text-align:start;padding:8px 14px;min-height:44px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;display:flex;flex-direction:column;justify-content:center}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.chip[aria-pressed="true"] .l2{color:inherit;opacity:.85}
+.chip:disabled{opacity:.55;cursor:not-allowed;border-style:dashed}
+.chip.big{flex:1 1 44%;font-weight:600}
+.panel{border:1.5px solid var(--accent);background:var(--accent-soft);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:12px}
+.panel > h2{font-size:17px;color:var(--accent)}
+.piv{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-top:1px solid var(--line)}
+.piv .q{font-size:15px;font-weight:500;flex:1}
+.yn{display:flex;gap:6px;flex:none}
+.yn{flex-wrap:wrap;justify-content:flex-end}
+.yn .chip{min-width:48px;align-items:center;padding:6px 10px}
+.yn .chip.no[aria-pressed="true"]{background:var(--muted);border-color:var(--muted);color:var(--surface)}
+.bar{position:fixed;inset-inline:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px))}
+.bar .in{max-width:528px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
+.bar .row{display:flex;align-items:center;gap:12px}
+.left{flex:1;font-size:14px;font-weight:600;color:var(--key)}
+.left.ok{color:var(--ok)}
+.btn{font:inherit;font-weight:600;font-size:16px;border:0;border-radius:12px;padding:12px 20px;min-height:48px;background:var(--accent);color:var(--accent-ink);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;text-align:center}
+.btn.ghost{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
+.btn.sm{font-size:14px;min-height:40px;padding:8px 14px}
+.done{align-items:stretch}
+.status{border-radius:10px;padding:10px 12px;font-weight:600}
+.status.ok{background:var(--ok-bg);color:var(--ok)}
+.status.local{background:var(--key-bg);color:var(--key)}
+pre.sum{white-space:pre-wrap;word-break:break-word;font:inherit;font-size:14px;background:var(--bg);border-radius:10px;padding:12px;margin:0;max-height:260px;overflow:auto}
+.acts{display:flex;flex-wrap:wrap;gap:8px}
+details{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 16px}
+summary{cursor:pointer;font-weight:600}
+.list{display:flex;flex-direction:column;gap:6px;margin:10px 0}
+.item{display:flex;justify-content:space-between;gap:8px;font-size:14px;border-top:1px solid var(--line);padding-top:6px}
+.item small{color:var(--muted);flex:none}
+[hidden]{display:none!important}
+.gate{max-width:380px;margin:0 auto;padding:48px 16px;display:flex;flex-direction:column;gap:14px}
+.gate input{font-size:22px;letter-spacing:.2em;text-align:center!important}
+@media (prefers-reduced-motion:no-preference){.chip,.btn{transition:background-color .12s,border-color .12s}}
+</style>
+</head>
+<body>
+<form class="gate" id="gate" hidden>
+  <div class="eyebrow">مايسترو سيرفس · Maestro Service</div>
+  <h1>استبيان الانضمام إلى مايسترو</h1>
+  <label class="lab" for="code"><span><span class="l1">الرقم السري</span><span class="l2" lang="ur">خفیہ نمبر · Passcode</span></span></label>
+  <input id="code" type="tel" inputmode="numeric" autocomplete="off" maxlength="12">
+  <div class="warn" id="codeErr" hidden>الرقم غلط · نمبر غلط ہے · Wrong code</div>
+  <button class="btn" type="submit">دخول · داخل ہوں · Enter</button>
+</form>
+<div class="wrap" id="app" hidden>
+  <header>
+    <div class="eyebrow" id="eyebrow"></div>
+    <h1 id="title"></h1>
+    <div class="langs" id="langs" role="group" aria-label="Language"></div>
+  </header>
+  <main id="form" style="display:flex;flex-direction:column;gap:14px"></main>
+  <div id="lists" style="display:flex;flex-direction:column;gap:10px"></div>
+</div>
+<div class="bar" id="bar" hidden><div class="in">
+  <div class="warn" id="missing" hidden></div>
+  <div class="row"><div class="left" id="left"></div><button class="btn" id="save" type="button"></button></div>
+</div></div>
+
+<script>
+/* ---------- نصوص الواجهة: [عربي, اردو, English] ---------- */
+const T = {
+  eyebrow:['مايسترو سيرفس · زيارة ميدانية','مایسٹرو سروس · فیلڈ وزٹ','Maestro Service · field visit'],
+  title:['استبيان الانضمام إلى مايسترو','مایسٹرو میں شمولیت کا فارم','Maestro joining survey'],
+  agent:['اسمك (الموظف)','آپ کا نام (ملازم)','Your name (field agent)'],
+  sShop:['المحل','دکان','Shop'],
+  shopName:['اسم المحل','دکان کا نام','Shop name'],
+  district:['الحي','محلہ','District'],
+  map:['رابط الموقع من قوقل ماب','گوگل میپ کا لوکیشن لنک','Google Maps link'],
+  entity:['نوع النشاط','کاروبار کی قسم','Business type'],
+  techs:['كم فني عندهم؟','کتنے کاریگر ہیں؟','How many technicians?'],
+  sPeople:['التواصل','رابطہ','Contacts'],
+  ownerPhone:['جوال المالك أو الممثل النظامي','مالک یا قانونی نمائندے کا موبائل','Owner or legal representative mobile'],
+  ownerName:['اسم المالك','مالک کا نام','Owner name'],
+  cName:['اسم اللي كلمته','جس سے بات ہوئی اس کا نام','Name of the person you spoke to'],
+  cRole:['وظيفته','اس کا کام','His role'],
+  cPhone:['جوال اللي كلمته','جس سے بات ہوئی اس کا موبائل','Mobile of the person you spoke to'],
+  verify:['توثيق رقمه','اس کے نمبر کی تصدیق','Verify his number'],
+  verifyNote:['رمز SMS يشتغل بعد ربط مزود الرسائل.','ایس ایم ایس کوڈ بعد میں فعال ہوگا۔','SMS code turns on once the SMS provider is connected.'],
+  cLang:['لغته','اس کی زبان','His language'],
+  sServ:['الخدمات','خدمات','Services'],
+  servHint:['اختر كل اللي يسويه المحل','دکان جو کام کرتی ہے سب منتخب کریں','Select everything the shop does'],
+  otherCat:['خدمة ثانية؟ اكتبها','کوئی اور کام؟ لکھیں','Another service? Write it'],
+  types:['يشتغل على','کن پر کام کرتا ہے','Works on'],
+  basics:['الأساسيات: شِل اللي ما يسويه','بنیادی کام: جو نہیں کرتا وہ ہٹا دیں','Basics: untick what he does NOT do'],
+  pivots:['أسئلة مهمة','اہم سوالات','Key questions'],
+  other:['شي ثاني؟','کچھ اور؟','Anything else?'],
+  yes:['نعم','ہاں','Yes'], no:['لا','نہیں','No'], dk:['ما أدري','معلوم نہیں','Don\'t know'],
+  otherChip:['أخرى','دیگر','Other'], otherPh:['اكتب هنا','یہاں لکھیں','Write here'],
+  truck:['عنده سيارة ينقل فيها المكيف من بيت لبيت ثاني؟','کیا اس کے پاس گاڑی ہے جس سے اے سی ایک گھر سے دوسرے گھر لے جا سکے؟','Has a vehicle to move an AC from one house to another?'],
+  sWork:['الشغل','کام کی تفصیل','Work details'],
+  areas:['وين يشتغل بالرياض؟','ریاض میں کہاں کام کرتا ہے؟','Where in Riyadh does he work?'],
+  pay:['كيف ياخذ فلوسه؟','پیسے کیسے لیتا ہے؟','How does he take payment?'],
+  warranty:['يعطي ضمان على شغله؟','کام کی گارنٹی دیتا ہے؟','Gives a warranty on his work?'],
+  fee:['كم ياخذ على الزيارة أو الكشف؟ (ريال)','وزٹ یا چیکنگ کی فیس؟ (ریال)','Visit or inspection fee (SAR)'],
+  sEnd:['الخلاصة','خلاصہ','Wrap-up'],
+  interest:['مهتم ينضم؟','شامل ہونے میں دلچسپی ہے؟','Interested in joining?'],
+  callTime:['أفضل وقت نتصل فيه','کال کا بہترین وقت','Best time to call'],
+  notes:['ملاحظاتك','آپ کے نوٹس','Your notes'],
+  key:['مهم','اہم','Key'],
+  left:['باقي {n} مهمة','{n} اہم خانے باقی','{n} key fields left'],
+  allDone:['المهم كله معبّى','تمام اہم خانے مکمل','All key fields filled'],
+  save:['حفظ المحل','دکان محفوظ کریں','Save shop'],
+  saveAnyway:['احفظ على أي حال','پھر بھی محفوظ کریں','Save anyway'],
+  missing:['ناقص','باقی','Missing'],
+  saved:['تم حفظ المحل','دکان محفوظ ہو گئی','Shop saved'],
+  synced:['وصل للفريق','ٹیم تک پہنچ گیا','Sent to the team'],
+  local:['محفوظ على هذا الجوال فقط. أرسله للفريق بالواتساب.','صرف اس فون میں محفوظ ہے۔ واٹس ایپ سے ٹیم کو بھیجیں۔','Saved on this phone only. Send it to the team on WhatsApp.'],
+  wa:['أرسل بالواتساب','واٹس ایپ پر بھیجیں','Send on WhatsApp'],
+  copy:['انسخ الملخص','خلاصہ کاپی کریں','Copy summary'],
+  copied:['تم النسخ','کاپی ہو گیا','Copied'],
+  copyFail:['ما قدرت أنسخ. حدد النص وانسخه بيدك.','کاپی نہیں ہوا۔ متن خود منتخب کر کے کاپی کریں۔','Could not copy. Select the text and copy it yourself.'],
+  newShop:['محل جديد','نئی دکان','New shop'],
+  mine:['محلات هذا الجوال','اس فون کی دکانیں','Shops on this phone'],
+  team:['ردود الفريق','ٹیم کے جوابات','Team responses'],
+  copyAll:['انسخ الكل كجدول','سب ٹیبل کے طور پر کاپی کریں','Copy all as a table'],
+  upload:['ارفع للفريق','ٹیم کو بھیجیں','Upload to team'],
+  onPhone:['على الجوال فقط','صرف فون میں','On phone only'],
+  phoneHint:['الرقم يبدأ بـ05 وطوله 10 أرقام','نمبر 05 سے شروع ہو اور 10 ہندسے ہوں','Should start with 05 and be 10 digits'],
+  services:['الخدمات','خدمات','Services'],
+  slow:['ردود الفريق ما وصلت للحين.','ٹیم کے جوابات ابھی نہیں آئے۔','Team responses have not loaded yet.']
+};
+const O = {
+  entity:[['cr',['مؤسسة أو شركة (سجل تجاري)','کمپنی یا ادارہ (تجارتی رجسٹریشن)','Company (commercial registration)']],['fl',['فرد (وثيقة عمل حر)','فرد (فری لانس دستاویز)','Individual (freelance document)']],['unk',['ما أدري','معلوم نہیں','Not sure']]],
+  techs:[['1',['1','1','1']],['2-3',['2 – 3','2 – 3','2 – 3']],['4-6',['4 – 6','4 – 6','4 – 6']],['7+',['7 أو أكثر','7 یا زیادہ','7 or more']]],
+  role:[['owner',['مالك','مالک','Owner']],['manager',['مدير','منیجر','Manager']],['tech',['فني','کاریگر','Technician']],['worker',['عامل','مزدور','Worker']]],
+  verify:[['sms',['رمز SMS (قريبًا)','ایس ایم ایس کوڈ (جلد)','SMS code (soon)']],['call',['رنّيت عليه ورن جواله','میں نے کال کی، فون بجا','I called and his phone rang']],['none',['ما قدرت أوثقه','تصدیق نہیں ہو سکی','Could not verify']]],
+  lang:[['ar',['عربي','عربی','Arabic']],['ur',['أوردو','اردو','Urdu']],['hi',['هندي','ہندی','Hindi']],['bn',['بنغالي','بنگالی','Bengali']],['en',['إنجليزي','انگریزی','English']]],
+  areas:[['near',['الحي والقريب منه','یہ محلہ اور آس پاس','This district and nearby']],['n',['شمال','شمال','North']],['e',['شرق','مشرق','East']],['w',['غرب','مغرب','West']],['s',['جنوب','جنوب','South']],['all',['كل الرياض','پورا ریاض','All of Riyadh']]],
+  pay:[['cash',['كاش','نقد','Cash']],['card',['شبكة','کارڈ مشین','Card machine']],['transfer',['تحويل','بینک ٹرانسفر','Bank transfer']]],
+  interest:[['yes',['مهتم','دلچسپی ہے','Interested']],['owner',['يبي يكلم المالك أول','پہلے مالک سے بات کرے گا','Needs to ask the owner']],['no',['مو مهتم','دلچسپی نہیں','Not interested']]],
+  callTime:[['am',['الصبح','صبح','Morning']],['pm',['العصر','سہ پہر','Afternoon']],['eve',['الليل','رات','Evening']]]
+};
+/* ---------- الخدمات: الأنواع، الأساسيات (محددة جاهزة)، الأسئلة المفصلية ---------- */
+const CATS = [
+ {id:'ac',name:['مكيفات','اے سی','Air conditioning'],
+  types:[['split',['سبليت','اسپلٹ','Split']],['window',['شباك','ونڈو','Window']],['central',['مركزي','سینٹرل','Central']],['desert',['صحراوي','ڈیزرٹ کولر','Desert cooler']],['cassette',['كاسيت أو دولابي','کیسٹ یا فلور اسٹینڈنگ','Cassette or floor-standing']]],
+  basics:[['wash',['غسيل وتنظيف','دھلائی اور صفائی','Wash and clean']],['freon',['تعبئة فريون','گیس بھرنا','Freon refill']],['diag',['فحص وتشخيص','چیکنگ اور خرابی معلوم کرنا','Inspection and diagnosis']],['repair',['إصلاح أعطال','خرابی کی مرمت','Fault repair']]],
+  pivots:[['install',['يركّب مكيف جديد؟','نیا اے سی لگاتا ہے؟','Installs new units?']],['move',['يفك المكيف ويركّبه في مكان ثاني؟','اے سی اتار کر دوسری جگہ لگاتا ہے؟','Removes and refits units elsewhere?']],['copper',['تأسيس وتمديد مواسير نحاس؟','کاپر پائپنگ کرتا ہے؟','Copper piping and pre-installation?']],['duct',['ينظف الدكت؟','ڈکٹ کی صفائی کرتا ہے؟','Cleans ducts?'],'central'],['pads',['يغيّر القش والمضخة؟','کولر کی گھاس اور پمپ بدلتا ہے؟','Replaces pads and pump?'],'desert'],['contract',['عقود صيانة سنوية؟','سالانہ مینٹیننس کنٹریکٹ؟','Annual maintenance contracts?']]]},
+ {id:'plumb',name:['سباكة','پلمبنگ','Plumbing'],types:[],
+  basics:[['leak',['إصلاح تسريب','لیکیج ٹھیک کرنا','Leak repair']],['clog',['تسليك انسداد المجاري','بند نالی کھولنا','Unclogging drains']],['fit',['تركيب مغاسل وخلاطات','واش بیسن اور مکسر لگانا','Installing sinks and mixers']],['toilet',['إصلاح سيفون وكرسي حمام','فلش اور کموڈ کی مرمت','Toilet and flush repair']]],
+  pivots:[['heater',['سخانات (تركيب وإصلاح)؟','گیزر لگانا اور مرمت؟','Water heaters (install and repair)?']],['pump',['مضخات الماء (الدينمو)؟','پانی کی موٹر؟','Water pumps?']],['detect',['كشف تسربات بالأجهزة؟','مشین سے لیکیج تلاش کرنا؟','Electronic leak detection?']],['tank',['تنظيف وعزل خزانات؟','ٹینکی کی صفائی اور واٹر پروفنگ؟','Tank cleaning and waterproofing?']],['pipes',['تأسيس وتمديد مواسير؟','نئی پائپ لائن بچھانا؟','New pipework?']]]},
+ {id:'elec',name:['كهرباء','بجلی','Electrical'],types:[],
+  basics:[['breaker',['إصلاح قواطع وأعطال','بریکر اور خرابی کی مرمت','Breakers and fault repair']],['socket',['تركيب أفياش ومفاتيح','ساکٹ اور سوئچ لگانا','Sockets and switches']],['light',['تركيب إنارة وثريات ومراوح','لائٹ، فانوس اور پنکھے لگانا','Lights, chandeliers and fans']]],
+  pivots:[['wiring',['تأسيس وتمديد جديد؟','نئی وائرنگ؟','New wiring?']],['board',['لوحة التوزيع (الطبلون)؟','ڈسٹری بیوشن بورڈ؟','Distribution board?']],['eheater',['سخانات كهربائية؟','الیکٹرک گیزر؟','Electric water heaters?']],['cctv',['كاميرات وإنتركم؟','کیمرے اور انٹرکام؟','Cameras and intercom?']]]},
+ {id:'appl',name:['غسالات وأجهزة','واشنگ مشین اور آلات','Washers and appliances'],
+  types:[['washer',['غسالة ملابس','واشنگ مشین','Washing machine']],['dish',['غسالة صحون','ڈش واشر','Dishwasher']],['fridge',['ثلاجة وفريزر','فریج اور فریزر','Fridge and freezer']],['oven',['فرن وغاز','اوون اور چولہا','Oven and stove']],['dryer',['نشافة','ڈرائر','Dryer']]],
+  basics:[],
+  pivots:[['home',['يصلح في بيت العميل؟','گاہک کے گھر پر مرمت کرتا ہے؟','Repairs at the customer\'s home?']],['parts',['يوفر قطع الغيار؟','اسپیئر پارٹس مہیا کرتا ہے؟','Supplies spare parts?']]]},
+ {id:'garden',name:['حدائق','باغبانی','Gardening'],types:[],
+  basics:[['mow',['قص العشب','گھاس کاٹنا','Lawn mowing']],['trim',['تشذيب الأشجار','درختوں کی کٹائی','Tree trimming']],['plant',['زراعة وتنسيق','پودے لگانا اور سجاوٹ','Planting and landscaping']],['water',['ري وتسميد','پانی اور کھاد دینا','Watering and fertilising']]],
+  pivots:[['irrig',['يركّب شبكة ري؟','آبپاشی کا نظام لگاتا ہے؟','Installs irrigation systems?']],['turf',['عشب صناعي؟','مصنوعی گھاس؟','Artificial grass?']],['palm',['خدمة النخل (تلقيح وتكريب)؟','کھجور کے درختوں کا کام؟','Palm tree care?']],['pest',['مكافحة آفات؟','کیڑے مار اسپرے؟','Pest control?']],['regular',['بستاني بزيارات دورية؟','باقاعدہ مالی کی سروس؟','Regular gardener visits?']]]}
+];
+
+/* ---------- الحالة ---------- */
+const LS = {get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+let lang = LS.get('shopSurvey.lang','dual');
+let view = 'form', lastRec = null, confirmMissing = false, flash = '';
+const fresh = () => ({agent:LS.get('shopSurvey.agent',''),shop:{name:'',district:'',map:'',entity:'',techs:''},owner:{name:'',phone:''},contact:{name:'',role:'',phone:'',verify:'',lang:''},cats:{},otherCat:'',work:{areas:[],pay:[],warranty:'',fee:''},interest:'',callTime:'',notes:'',oth:{},othText:{}});
+let S = Object.assign(fresh(), LS.get('shopSurvey.draft',null) || {});
+let mine = LS.get('shopSurvey.saved',[]);
+let db = null, team = null, teamSlow = false;
+
+const li = () => ({ar:0,ur:1,en:2})[lang] ?? 0;
+const tx = a => a[li()];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const L = a => lang==='dual' ? `<span class="l1">${esc(a[0])}</span><span class="l2" lang="ur">${esc(a[1])}</span>` : `<span class="l1">${esc(tx(a))}</span>`;
+const get = p => p.split('.').reduce((o,k)=>o==null?undefined:o[k], S);
+const set = (p,v) => {const ks=p.split('.');let o=S;for(let i=0;i<ks.length-1;i++){if(o[ks[i]]==null||typeof o[ks[i]]!=='object')o[ks[i]]={};o=o[ks[i]]}o[ks[ks.length-1]]=v};
+const digits = s => String(s||'').replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
+const phoneOk = s => {const d=digits(s).replace(/[\s-]/g,'');return /^(05\d{8}|\+?9665\d{8})$/.test(d)};
+const catOn = id => S.cats[id] && S.cats[id].on;
+const keys = () => [['shop.name','shopName'],['shop.district','district'],['owner.phone','ownerPhone'],['contact.phone','cPhone'],['#serv','services']].concat(catOn('ac')?[['cats.ac.piv.truck','truck']]:[],[['interest','interest']]);
+const okey = p => p.replace(/\./g,'_');
+const oText = p => S.oth[okey(p)] ? String(S.othText[okey(p)]||'').trim() : '';
+const filled = p => p==='#serv' ? (CATS.some(c=>catOn(c.id)) || !!oText('cats')) : !!String(get(p)||'').trim();
+const missing = () => keys().filter(([p])=>!filled(p));
+
+/* ---------- عناصر الرسم ---------- */
+function field(path,label,o={}){
+  const v=get(path)||'', key=o.key, ok=key&&filled(path), id='f-'+path.replace(/\./g,'-');
+  const tag = key?`<span class="tag">${ok?'✓':esc(lang==='dual'?T.key[0]:tx(T.key))}</span>`:'';
+  const inp = o.area ? `<textarea id="${id}" data-path="${path}">${esc(v)}</textarea>` : `<input id="${id}" type="${o.type||'text'}" ${o.mode?`inputmode="${o.mode}"`:''} ${o.ac?`autocomplete="${o.ac}"`:''} data-path="${path}" value="${esc(v)}" ${o.ph?`placeholder="${esc(o.ph)}"`:''}>`;
+  const hint = o.type==='tel' ? `<div class="warn" data-phone-hint="${path}" ${(!v||phoneOk(v))?'hidden':''}>${esc(lang==='dual'?T.phoneHint[0]:tx(T.phoneHint))}</div>` : '';
+  return `<div class="f ${key?'key':''} ${ok?'ok':''}" data-wrap="${path}"><label class="lab" for="${id}"><span>${L(label)}</span>${tag}</label>${inp}${hint}</div>`;
+}
+function chips(path,opts,o={}){
+  const cur=get(path), many=o.many;
+  const btns=opts.map(([v,t])=>{const on=o.invert?!(cur||[]).includes(v):(many?(cur||[]).includes(v):cur===v);const dis=o.disabled&&o.disabled.includes(v);
+    return `<button type="button" class="chip ${o.cls||''}" data-k="${many?'many':'one'}" data-path="${path}" data-v="${v}" aria-pressed="${on}" ${dis?'disabled':''}>${L(t)}</button>`}).join('');
+  return `<div class="chips">${btns}${o.other?otherChip(path):''}</div>${o.other?otherInput(path):''}`;
+}
+function otherChip(path){ return `<button type="button" class="chip" data-k="oth" data-v="${okey(path)}" aria-pressed="${!!S.oth[okey(path)]}">${L(T.otherChip)}</button>`; }
+function otherInput(path){ const k=okey(path); return S.oth[k]?`<input type="text" id="o-${k}" data-path="othText.${k}" value="${esc(S.othText[k]||'')}" placeholder="${esc(lang==='dual'?T.otherPh[0]:tx(T.otherPh))}" aria-label="${esc(lang==='dual'?T.otherChip[0]:tx(T.otherChip))}">`:''; }
+const YND = () => [['y',T.yes],['n',T.no],['dk',T.dk]];
+function group(label,inner,o={}){
+  const key=o.key, ok=key&&filled(o.key);
+  const tag = key?`<span class="tag">${ok?'✓':esc(lang==='dual'?T.key[0]:tx(T.key))}</span>`:'';
+  return `<div class="f ${key?'key':''} ${ok?'ok':''}"><div class="lab"><span>${L(label)}</span>${tag}</div>${o.hint?`<div class="hint">${L(o.hint)}</div>`:''}${inner}</div>`;
+}
+function catPanel(c){
+  const st=S.cats[c.id], base='cats.'+c.id; let h=`<div class="panel"><h2>${L(c.name)}</h2>`;
+  if(c.id==='ac') h+=group(T.truck,chips(base+'.piv.truck',YND()),{key:base+'.piv.truck'});
+  if(c.types.length) h+=`<div class="f"><h3>${L(T.types)}</h3>${chips(base+'.types',c.types,{many:true,other:true})}</div>`;
+  if(c.basics.length) h+=`<div class="f"><h3>${L(T.basics)}</h3>${chips(base+'.off',c.basics,{many:true,invert:true,other:true})}</div>`;
+  const pv=c.pivots.filter(p=>!p[2]||(st.types||[]).includes(p[2]));
+  if(pv.length){h+=`<div class="f" style="gap:0"><h3 style="padding-bottom:6px">${L(T.pivots)}</h3>`;
+    pv.forEach(([id,t])=>{const cur=(st.piv||{})[id];const b=(v,lab,cls)=>`<button type="button" class="chip ${cls}" data-k="one" data-path="${base}.piv.${id}" data-v="${v}" aria-pressed="${cur===v}">${L(lab)}</button>`;
+      h+=`<div class="piv"><div class="q">${L(t)}</div><div class="yn">${b('y',T.yes,'')}${b('n',T.no,'no')}${b('dk',T.dk,'no')}</div></div>`});
+    h+='</div>'}
+  h+='</div>'; return h;
+}
+function render(){
+  document.documentElement.lang = lang==='dual'?'ar':lang; document.documentElement.dir = lang==='en'?'ltr':'rtl';
+  document.getElementById('eyebrow').innerHTML=L(T.eyebrow); document.getElementById('title').innerHTML=L(T.title);
+  document.getElementById('langs').innerHTML=[['dual','عربي + اردو'],['ar','عربي'],['ur','اردو'],['en','English']].map(([k,n])=>`<button type="button" data-lang="${k}" aria-pressed="${lang===k}">${n}</button>`).join('');
+  const f=document.getElementById('form'), bar=document.getElementById('bar');
+  if(view==='done'){ bar.hidden=true; f.innerHTML=doneView(); renderLists(); return; }
+  bar.hidden=false;
+  const catBtns=CATS.map(c=>`<button type="button" class="chip big" data-k="cat" data-v="${c.id}" aria-pressed="${!!catOn(c.id)}">${L(c.name)}</button>`).join('');
+  f.innerHTML = `
+  <section>${field('agent',T.agent,{ac:'name'})}</section>
+  <section><h2>${L(T.sShop)}</h2>
+    ${field('shop.name',T.shopName,{key:1})}
+    ${field('shop.district',T.district,{key:1})}
+    ${field('shop.map',T.map,{type:'url',mode:'url',ph:'https://maps.app.goo.gl/...'})}
+    ${group(T.entity,chips('shop.entity',O.entity,{other:true}))}
+    ${group(T.techs,chips('shop.techs',O.techs))}
+  </section>
+  <section><h2>${L(T.sPeople)}</h2>
+    ${field('owner.phone',T.ownerPhone,{key:1,type:'tel',mode:'tel',ph:'05XXXXXXXX'})}
+    ${field('owner.name',T.ownerName)}
+    ${field('contact.phone',T.cPhone,{key:1,type:'tel',mode:'tel',ph:'05XXXXXXXX'})}
+    ${group(T.verify,chips('contact.verify',O.verify,{disabled:['sms']}),{hint:T.verifyNote})}
+    ${field('contact.name',T.cName)}
+    ${group(T.cRole,chips('contact.role',O.role,{other:true}))}
+    ${group(T.cLang,chips('contact.lang',O.lang,{other:true}))}
+  </section>
+  <section><h2>${L(T.sServ)}</h2>
+    ${group(T.servHint,`<div class="chips">${catBtns}${otherChip('cats')}</div>${otherInput('cats')}`,{key:'#serv'})}
+    ${CATS.filter(c=>catOn(c.id)).map(catPanel).join('')}
+  </section>
+  <section><h2>${L(T.sWork)}</h2>
+    ${group(T.areas,chips('work.areas',O.areas,{many:true,other:true}))}
+    ${group(T.pay,chips('work.pay',O.pay,{many:true,other:true}))}
+    ${group(T.warranty,chips('work.warranty',YND()))}
+    ${field('work.fee',T.fee,{type:'number',mode:'numeric'})}
+  </section>
+  <section><h2>${L(T.sEnd)}</h2>
+    ${group(T.interest,chips('interest',O.interest),{key:'interest'})}
+    ${group(T.callTime,chips('callTime',O.callTime))}
+    ${field('notes',T.notes,{area:1})}
+  </section>`;
+  renderBar(); renderLists();
+}
+function renderBar(){
+  const m=missing(), left=document.getElementById('left'), miss=document.getElementById('missing'), one=a=>lang==='dual'?a[0]:tx(a);
+  left.textContent = m.length ? one(T.left).replace('{n}',m.length) : one(T.allDone);
+  left.className = 'left'+(m.length?'':' ok');
+  if(!m.length) confirmMissing=false;
+  miss.hidden = !confirmMissing;
+  miss.textContent = confirmMissing ? one(T.missing)+': '+m.map(([,k])=>one(T[k])).join('، ') : '';
+  document.getElementById('save').textContent = one(confirmMissing?T.saveAnyway:T.save);
+}
+
+/* ---------- بناء السجل والملخص (بالعربي دائمًا للفريق) ---------- */
+const ar = (list,v) => {const o=list.find(x=>x[0]===v);return o?o[1][0]:''};
+const arMany = (list,vs,p) => (vs||[]).map(v=>ar(list,v)).filter(Boolean).concat(p&&oText(p)?[oText(p)]:[]).join('، ');
+const arOne = (list,v,p) => [ar(list,v), p?oText(p):''].filter(Boolean).join('، ');
+const ynd = v => ({y:'نعم',n:'لا',dk:'غير معروف'})[v]||'';
+function servText(){
+  const out=[];
+  CATS.filter(c=>catOn(c.id)).forEach(c=>{const st=S.cats[c.id], off=st.off||[], piv=st.piv||{};
+    const parts=[];
+    const base='cats.'+c.id, ty=arMany(c.types,st.types,base+'.types');
+    if(c.id==='ac'&&piv.truck) parts.push('سيارة نقل بين البيوت: '+ynd(piv.truck));
+    if(ty) parts.push('الأنواع: '+ty);
+    const does=c.basics.filter(b=>!off.includes(b[0])).map(b=>b[1][0]).concat(oText(base+'.off')?[oText(base+'.off')]:[]);
+    const d=act=>act.filter(p=>piv[p[0]]==='dk').map(p=>p[1][0].replace('؟',''));
+    const act=c.pivots.filter(p=>!p[2]||(st.types||[]).includes(p[2]));
+    const y=act.filter(p=>piv[p[0]]==='y').map(p=>p[1][0].replace('؟',''));
+    const n=act.filter(p=>piv[p[0]]==='n').map(p=>p[1][0].replace('؟','')).concat(c.basics.filter(b=>off.includes(b[0])).map(b=>b[1][0]));
+    if(does.concat(y).length) parts.push('يسوي: '+does.concat(y).join('، '));
+    if(n.length) parts.push('ما يسوي: '+n.join('، '));
+    if(d(act).length) parts.push('غير معروف: '+d(act).join('، '));
+    out.push(c.name[0]+(parts.length?' ('+parts.join(' | ')+')':''))});
+  if(oText('cats')) out.push('خدمة أخرى: '+oText('cats'));
+  return out;
+}
+function buildRec(){
+  const serv=servText(), ph=s=>digits(s).replace(/[\s-]/g,'');
+  const row={date:new Date().toISOString(),agent:S.agent.trim(),shop:S.shop.name.trim(),district:S.shop.district.trim(),entity:arOne(O.entity,S.shop.entity,'shop.entity'),techs:ar(O.techs,S.shop.techs),ownerName:S.owner.name.trim(),ownerPhone:ph(S.owner.phone),contactName:S.contact.name.trim(),contactRole:arOne(O.role,S.contact.role,'contact.role'),contactPhone:ph(S.contact.phone),verify:ar(O.verify,S.contact.verify),contactLang:arOne(O.lang,S.contact.lang,'contact.lang'),categories:CATS.filter(c=>catOn(c.id)).map(c=>c.name[0]).concat(oText('cats')?[oText('cats')]:[]).join('، '),acTruck:catOn('ac')?ynd((S.cats.ac.piv||{}).truck):'',services:serv.join(' ؛ '),areas:arMany(O.areas,S.work.areas,'work.areas'),pay:arMany(O.pay,S.work.pay,'work.pay'),warranty:ynd(S.work.warranty),fee:digits(S.work.fee),interest:ar(O.interest,S.interest),callTime:ar(O.callTime,S.callTime),notes:S.notes.trim(),map:S.shop.map.trim()};
+  const ln=(k,v)=>v?k+': '+v:null;
+  const text=['تسجيل محل جديد',ln('المحل',row.shop),ln('الحي',row.district),ln('الموقع',row.map),ln('النشاط',row.entity),ln('عدد الفنيين',row.techs),ln('جوال المالك',row.ownerPhone+(row.ownerName?' ('+row.ownerName+')':'')),ln('اللي كلمته',[row.contactName,row.contactRole,row.contactPhone].filter(Boolean).join(' / ')),ln('توثيق الرقم',row.verify),ln('لغته',row.contactLang),serv.length?'الخدمات:\n- '+serv.join('\n- '):null,ln('مناطق الشغل',row.areas),ln('الدفع',row.pay),ln('ضمان',row.warranty),ln('رسوم الزيارة',row.fee),ln('الاهتمام',row.interest),ln('وقت الاتصال',row.callTime),ln('ملاحظات',row.notes),ln('الموظف',row.agent)].filter(Boolean).join('\n');
+  return {id:'s'+Date.now().toString(36)+Math.random().toString(36).slice(2,7),row,text,data:JSON.parse(JSON.stringify(S)),synced:false};
+}
+const COLS=[['date','التاريخ'],['agent','الموظف'],['shop','المحل'],['district','الحي'],['entity','النشاط'],['techs','الفنيين'],['ownerName','المالك'],['ownerPhone','جوال المالك'],['contactName','المتحدث'],['contactRole','وظيفته'],['contactPhone','جواله'],['verify','التوثيق'],['contactLang','لغته'],['categories','الفئات'],['acTruck','سيارة نقل مكيفات'],['services','تفاصيل الخدمات'],['areas','المناطق'],['pay','الدفع'],['warranty','ضمان'],['fee','رسوم الزيارة'],['interest','الاهتمام'],['callTime','وقت الاتصال'],['notes','ملاحظات'],['map','الموقع']];
+const tsv = recs => [COLS.map(c=>c[1]).join('\t')].concat(recs.map(r=>COLS.map(c=>String((r.row||{})[c[0]]??'').replace(/[\t\n\r]+/g,' ')).join('\t'))).join('\n');
+
+/* ---------- الحفظ ---------- */
+async function pushRec(rec){
+  if(!db) return false;
+  try{ await db.collection('shops').doc(rec.id).set({row:rec.row,text:rec.text,data:rec.data}); rec.synced=true; LS.set('shopSurvey.saved',mine); return true; }catch(e){ return false; }
+}
+async function save(){
+  const m=missing();
+  if(m.length && !confirmMissing){ confirmMissing=true; renderBar(); return; }
+  const btn=document.getElementById('save'); btn.disabled=true;
+  const rec=buildRec(); mine.unshift(rec); LS.set('shopSurvey.saved',mine);
+  LS.set('shopSurvey.agent',S.agent); LS.set('shopSurvey.draft',null);
+  await pushRec(rec);
+  btn.disabled=false; lastRec=rec; view='done'; confirmMissing=false; flash=''; render(); window.scrollTo(0,0);
+}
+function doneView(){
+  const r=lastRec, one=a=>lang==='dual'?a[0]:tx(a);
+  return `<section class="done"><h2>${L(T.saved)}</h2>
+    <div class="status ${r.synced?'ok':'local'}">${L(r.synced?T.synced:T.local)}</div>
+    <pre class="sum" id="sum" dir="rtl">${esc(r.text)}</pre>
+    <div class="acts">
+      <a class="btn ${r.synced?'ghost':''}" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(r.text)}">${esc(one(T.wa))}</a>
+      <button type="button" class="btn ghost" data-copy="sum">${esc(one(T.copy))}</button>
+    </div>
+    <div class="hint" id="flash">${esc(flash)}</div>
+    <button type="button" class="btn" id="newShop">${esc(one(T.newShop))}</button></section>`;
+}
+function renderLists(){
+  const one=a=>lang==='dual'?a[0]:tx(a), box=document.getElementById('lists'); let h='';
+  const item=(r,extra)=>`<div class="item"><span>${esc((r.row||{}).shop||'—')} · ${esc((r.row||{}).district||'')}</span><small>${extra}</small></div>`;
+  if(mine.length){ const pend=mine.filter(r=>!r.synced).length;
+    h+=`<details><summary>${esc(one(T.mine))} (${mine.length})</summary><div class="list">${mine.map(r=>item(r,r.synced?esc(one(T.synced)):esc(one(T.onPhone)))).join('')}</div><div class="acts"><button type="button" class="btn ghost sm" data-tsv="mine">${esc(one(T.copyAll))}</button>${db&&pend?`<button type="button" class="btn sm" id="upload">${esc(one(T.upload))} (${pend})</button>`:''}</div><div class="hint" id="flash-mine"></div></details>`; }
+  if(team&&team.length){
+    h+=`<details><summary>${esc(one(T.team))} (${team.length})</summary><div class="list">${team.map(r=>item(r,esc(String((r.row||{}).date||'').slice(0,10)))).join('')}</div><div class="acts"><button type="button" class="btn ghost sm" data-tsv="team">${esc(one(T.copyAll))}</button></div><div class="hint" id="flash-team"></div></details>`;
+  } else if(db&&teamSlow&&team===null){ h+=`<div class="hint">${esc(one(T.slow))}</div>`; }
+  box.innerHTML=h;
+}
+async function copyText(text,flashId){
+  const one=a=>lang==='dual'?a[0]:tx(a), el=document.getElementById(flashId);
+  try{ await navigator.clipboard.writeText(text); if(el) el.textContent=one(T.copied); }
+  catch(e){ if(el) el.textContent=one(T.copyFail); }
+}
+
+/* ---------- الأحداث ---------- */
+let draftTimer=null;
+const saveDraft=()=>{clearTimeout(draftTimer);draftTimer=setTimeout(()=>LS.set('shopSurvey.draft',S),400)};
+document.addEventListener('input',e=>{
+  const p=e.target.dataset&&e.target.dataset.path; if(!p) return;
+  set(p,e.target.value); saveDraft();
+  const w=document.querySelector(`[data-wrap="${p}"]`);
+  if(w&&w.classList.contains('key')){const ok=filled(p);w.classList.toggle('ok',ok);const t=w.querySelector('.tag');if(t)t.textContent=ok?'✓':(lang==='dual'?T.key[0]:tx(T.key))}
+  const hint=document.querySelector(`[data-phone-hint="${p}"]`); if(hint) hint.hidden=!e.target.value||phoneOk(e.target.value);
+  if(p==='othText.cats'){const g=document.querySelector('.f.key:has([data-k="cat"])');if(g){const ok=filled('#serv');g.classList.toggle('ok',ok);const t=g.querySelector('.tag');if(t)t.textContent=ok?'✓':(lang==='dual'?T.key[0]:tx(T.key))}}
+  renderBar();
+});
+document.addEventListener('click',e=>{
+  const b=e.target.closest('button,[data-copy]'); if(!b) return;
+  if(b.dataset.lang){ lang=b.dataset.lang; LS.set('shopSurvey.lang',lang); render(); return; }
+  if(b.id==='save'){ save(); return; }
+  if(b.id==='newShop'){ S=fresh(); view='form'; lastRec=null; render(); window.scrollTo(0,0); return; }
+  if(b.id==='upload'){ b.disabled=true; (async()=>{for(const r of mine.filter(x=>!x.synced)) await pushRec(r); renderLists();})(); return; }
+  if(b.dataset.copy){ copyText(document.getElementById(b.dataset.copy).textContent,'flash'); return; }
+  if(b.dataset.tsv){ copyText(tsv(b.dataset.tsv==='team'?team:mine),'flash-'+b.dataset.tsv); return; }
+  const k=b.dataset.k; if(!k) return;
+  const v=b.dataset.v, p=b.dataset.path;
+  if(k==='oth'){ S.oth[v]=!S.oth[v]; saveDraft(); render(); const i=document.getElementById('o-'+v); if(i) i.focus(); return; }
+  if(k==='cat'){ const st=S.cats[v]||(S.cats[v]={on:false,types:[],off:[],piv:{},other:''}); st.on=!st.on; }
+  else if(k==='one'){ set(p, get(p)===v?'':v); }
+  else if(k==='many'){ const a=(get(p)||[]).slice(); const i=a.indexOf(v); i<0?a.push(v):a.splice(i,1); set(p,a); }
+  saveDraft(); render();
+});
+
+/* ---------- قاعدة بيانات الفريق (لو متاحة لهذا المستخدم) ---------- */
+(async()=>{
+  try{
+    if(!window.claude||!window.claude.use) return;
+    db = await window.claude.use('db');
+    if(!db) return;
+    const timer=setTimeout(()=>{teamSlow=true;renderLists()},10000);
+    db.collection('shops').onSnapshot(s=>{ if(!s.metadata.fromCache) clearTimeout(timer); teamSlow=false; team=s.docs.map(d=>Object.assign({id:d.id},d.data())).sort((a,b)=>String((b.row||{}).date).localeCompare(String((a.row||{}).date))); renderLists(); },()=>{clearTimeout(timer);team=[];renderLists()});
+    renderLists();
+  }catch(e){}
+})();
+/* ---------- الرقم السري: حاجز خفيف داخل الصفحة، مو حماية خادم ---------- */
+const CODE_HASH = 3845451957;
+const fnv = s => {let h=0x811c9dc5;for(const c of digits(s).trim()){h^=c.charCodeAt(0);h=Math.imul(h,0x01000193)>>>0}return h};
+function unlock(){ document.getElementById('gate').hidden=true; document.getElementById('app').hidden=false; render(); }
+if(LS.get('shopSurvey.unlocked',0)===CODE_HASH) unlock(); else document.getElementById('gate').hidden=false;
+document.getElementById('gate').addEventListener('submit',e=>{ e.preventDefault(); const v=document.getElementById('code').value;
+  if(fnv(v)===CODE_HASH){ LS.set('shopSurvey.unlocked',CODE_HASH); unlock(); } else { document.getElementById('codeErr').hidden=false; } });
+</script>
+</body>
+</html>
