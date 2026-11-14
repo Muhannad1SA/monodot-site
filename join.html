@@ -90,6 +90,8 @@ summary{cursor:pointer;font-weight:600}
 .item{display:flex;justify-content:space-between;gap:8px;font-size:14px;border-top:1px solid var(--line);padding-top:6px}
 .item small{color:var(--muted);flex:none}
 [hidden]{display:none!important}
+.badge{display:inline-block;align-self:flex-start;font-size:12px;font-weight:600;line-height:1.7;padding:0 9px;border-radius:999px;background:var(--key-bg);color:var(--key);border:1px solid var(--key);margin-block:2px}
+h3 .badge{margin-bottom:4px}
 .gate{max-width:380px;margin:0 auto;padding:48px 16px;display:flex;flex-direction:column;gap:14px}
 .gate input{font-size:22px;letter-spacing:.2em;text-align:center!important}
 @media (prefers-reduced-motion:no-preference){.chip,.btn{transition:background-color .12s,border-color .12s}}
@@ -128,43 +130,59 @@ const T = {
   shopName:['اسم المحل','دکان کا نام','Shop name'],
   district:['الحي','محلہ','District'],
   map:['رابط الموقع من قوقل ماب','گوگل میپ کا لوکیشن لنک','Google Maps link'],
-  entity:['نوع النشاط','کاروبار کی قسم','Business type'],
-  techs:['كم فني عندهم؟','کتنے کاریگر ہیں؟','How many technicians?'],
-  sPeople:['اللي كلمته','جس سے بات ہوئی','Person you spoke to'],
-  sOwner:['المالك أو الممثل','مالک یا نمائندہ','Owner or representative'],
-  vehicle:['وش وسيلة تنقّله؟','وہ کیسے آتا جاتا ہے؟','How does he get around?'],
   locBtn:['حدّد موقعي الحالي','میری موجودہ جگہ','Use my current location'],
   locWait:['جاري تحديد الموقع…','جگہ معلوم کی جا رہی ہے…','Finding location…'],
   locOk:['تم تحديد الموقع','جگہ محفوظ ہو گئی','Location saved'],
   locErr:['ما قدرت أحدد الموقع. اسمح للمتصفح بالوصول للموقع وجرّب مرة ثانية، أو الصق الرابط.','جگہ نہیں ملی۔ براؤزر کو لوکیشن کی اجازت دیں یا لنک چسپاں کریں۔','Could not get location. Allow location access and try again, or paste a link.'],
   locHint:['اضغطه وأنت داخل المحل','دکان کے اندر رہتے ہوئے دبائیں','Tap it while inside the shop'],
-  ownerPhone:['جوال المالك أو الممثل النظامي','مالک یا قانونی نمائندے کا موبائل','Owner or legal representative mobile'],
-  ownerName:['اسم المالك','مالک کا نام','Owner name'],
+  cr:['رقم السجل التجاري (مكتوب على اللوحة أو الشهادة)','تجارتی رجسٹریشن نمبر (بورڈ یا سرٹیفکیٹ پر)','Commercial registration number (on the sign or certificate)'],
+  crHint:['١٠ أرقام. لو ما لقيته اختر وحدة تحت','10 ہندسے۔ نہ ملے تو نیچے سے چنیں','10 digits. If not found, pick one below'],
+  crWarn:['السجل عادة ١٠ أرقام، تأكد منه','نمبر عام طور پر 10 ہندسے ہوتا ہے','Usually 10 digits, please check'],
+
+  sServ:['الخدمات','خدمات','Services'],
+  servHint:['اختر كل المجالات اللي يشتغل فيها المحل','دکان جن کاموں میں ہے سب منتخب کریں','Select every field the shop works in'],
+  typesQ:['أنواع المكيفات اللي يشتغل عليها','کن اے سی پر کام کرتا ہے','AC types he works on'],
+  typeSvc:['خدماته: شِل اللي ما يسويه','اس کے کام: جو نہیں کرتا ہٹا دیں','Services: untick what he does NOT do'],
+  groupsQ:['أنواع الشغل: شِل اللي ما يسويه','کام کی قسمیں: جو نہیں کرتا ہٹا دیں','Work types: untick what he does NOT do'],
+  devicesQ:['الأجهزة اللي يصلّحها','کون سی مشینیں ٹھیک کرتا ہے','Appliances he repairs'],
+  pivots:['أسئلة مهمة','اہم سوالات','Key questions'],
+  onlyFor:['خاص بـ{t}','صرف {t}','{t} only'],
+  contracts:['مهتم يقدّم عقود صيانة (زيارات دورية) لعملائنا؟','کیا ہمارے گاہکوں کو سالانہ مینٹیننس (باقاعدہ وزٹ) دینے میں دلچسپی ہے؟','Interested in offering maintenance contracts (regular visits) to our customers?'],
+  top:['أكثر ٣ أو ٤ خدمات يطلبها الناس منهم في هذا المجال','اس کام میں لوگ سب سے زیادہ کون سے 3 یا 4 کام کرواتے ہیں؟','Top 3–4 services customers ask them for in this field'],
+  topPh:['مثال: غسيل سبليت، تعبئة فريون، فك وتركيب','مثال: اسپلٹ دھلائی، گیس، اتارنا لگانا','e.g. split wash, freon, remove & refit'],
+  notInApp:['مو موجودة في التطبيق للحين، نسجّلها للمستقبل','ابھی ایپ میں نہیں، آگے کے لیے لکھ رہے ہیں','Not in the app yet; recorded for later'],
+  yes:['نعم','ہاں','Yes'], no:['لا','نہیں','No'], dk:['ما أدري','معلوم نہیں','Don\'t know'],
+  otherChip:['أخرى','دیگر','Other'], otherPh:['اكتب هنا','یہاں لکھیں','Write here'],
+  truck:['عنده سيارة ينقل فيها المكيف من بيت لبيت ثاني؟','کیا اس کے پاس گاڑی ہے جس سے اے سی ایک گھر سے دوسرے گھر لے جا سکے؟','Has a vehicle to move an AC from one house to another?'],
+
+  sWork:['الشغل','کام کی تفصیل','Work details'],
+  techs:['كم فني في المحل؟','دکان میں کتنے کاریگر ہیں؟','How many technicians in the shop?'],
+  vehicle:['وسائل التنقّل المتوفرة عند الفنيين (اختر الكل)','کاریگروں کے پاس آنے جانے کے کون سے ذرائع ہیں؟ (سب چنیں)','Transport the technicians have (select all)'],
+  range:['كم يغطي من المحل؟','دکان سے کتنی دور تک جاتے ہیں؟','How far from the shop do they cover?'],
+  branch:['عنده فرع ثاني؟','کیا کوئی اور برانچ ہے؟','Another branch?'],
+  branchWhere:['وين الفرع الثاني؟ (الحي أو المدينة)','دوسری برانچ کہاں ہے؟ (محلہ یا شہر)','Where is the other branch? (district or city)'],
+  terminal:['عنده جهاز شبكة؟','کیا کارڈ مشین ہے؟','Card machine?'],
+  wallets:['يقبل الدفع بـ STC Pay أو برق والتطبيقات المشابهة؟','کیا STC Pay، برق یا ایسی ایپس سے پیسے لیتا ہے؟','Accepts STC Pay, Barq or similar apps?'],
+  appPay:['يقبل إن العميل يدفع عن طريق التطبيق، وإحنا نحوّل له فلوسه؟','اگر گاہک ایپ سے پیسے دے اور ہم اسے بھیج دیں، تو قبول ہے؟','OK if the customer pays in the app and we transfer the money to him?'],
+  warranty:['يعطي ضمان على شغله؟','کام کی گارنٹی دیتا ہے؟','Gives a warranty on his work?'],
+  fee:['كم ياخذ على الزيارة أو المعاينة؟ (ريال)','وزٹ یا چیکنگ کی فیس؟ (ریال)','Visit or inspection fee (SAR)'],
+  phones:['وش نوع جوالات الفنيين؟','کاریگروں کے فون کون سے ہیں؟','What phones do the technicians use?'],
+
+  sPeople:['اللي كلمته','جس سے بات ہوئی','Person you spoke to'],
   cName:['اسم اللي كلمته','جس سے بات ہوئی اس کا نام','Name of the person you spoke to'],
   cRole:['وظيفته','اس کا کام','His role'],
   cPhone:['جوال اللي كلمته','جس سے بات ہوئی اس کا موبائل','Mobile of the person you spoke to'],
   verify:['توثيق رقمه','اس کے نمبر کی تصدیق','Verify his number'],
   verifyNote:['رمز SMS يشتغل بعد ربط مزود الرسائل.','ایس ایم ایس کوڈ بعد میں فعال ہوگا۔','SMS code turns on once the SMS provider is connected.'],
   cLang:['لغته','اس کی زبان','His language'],
-  sServ:['الخدمات','خدمات','Services'],
-  servHint:['اختر كل اللي يسويه المحل','دکان جو کام کرتی ہے سب منتخب کریں','Select everything the shop does'],
-  otherCat:['خدمة ثانية؟ اكتبها','کوئی اور کام؟ لکھیں','Another service? Write it'],
-  types:['يشتغل على','کن پر کام کرتا ہے','Works on'],
-  basics:['الأساسيات: شِل اللي ما يسويه','بنیادی کام: جو نہیں کرتا وہ ہٹا دیں','Basics: untick what he does NOT do'],
-  pivots:['أسئلة مهمة','اہم سوالات','Key questions'],
-  other:['شي ثاني؟','کچھ اور؟','Anything else?'],
-  yes:['نعم','ہاں','Yes'], no:['لا','نہیں','No'], dk:['ما أدري','معلوم نہیں','Don\'t know'],
-  otherChip:['أخرى','دیگر','Other'], otherPh:['اكتب هنا','یہاں لکھیں','Write here'],
-  truck:['عنده سيارة ينقل فيها المكيف من بيت لبيت ثاني؟','کیا اس کے پاس گاڑی ہے جس سے اے سی ایک گھر سے دوسرے گھر لے جا سکے؟','Has a vehicle to move an AC from one house to another?'],
-  sWork:['الشغل','کام کی تفصیل','Work details'],
-  areas:['وين يشتغل بالرياض؟','ریاض میں کہاں کام کرتا ہے؟','Where in Riyadh does he work?'],
-  pay:['كيف ياخذ فلوسه؟','پیسے کیسے لیتا ہے؟','How does he take payment?'],
-  warranty:['يعطي ضمان على شغله؟','کام کی گارنٹی دیتا ہے؟','Gives a warranty on his work?'],
-  fee:['كم ياخذ على الزيارة أو الكشف؟ (ريال)','وزٹ یا چیکنگ کی فیس؟ (ریال)','Visit or inspection fee (SAR)'],
-  sEnd:['الخلاصة','خلاصہ','Wrap-up'],
-  interest:['مهتم ينضم؟','شامل ہونے میں دلچسپی ہے؟','Interested in joining?'],
+
+  sOwner:['المالك أو الممثل','مالک یا نمائندہ','Owner or representative'],
+  ownerName:['اسم المالك','مالک کا نام','Owner name'],
+  ownerPhone:['جوال المالك أو الممثل النظامي','مالک یا قانونی نمائندے کا موبائل','Owner or legal representative mobile'],
   callTime:['أفضل وقت للتواصل مع المالك أو الممثل','مالک یا نمائندے سے رابطے کا بہترین وقت','Best time to reach the owner or representative'],
+  interest:['مهتم ينضم؟','شامل ہونے میں دلچسپی ہے؟','Interested in joining?'],
   notes:['ملاحظاتك','آپ کے نوٹس','Your notes'],
+
   key:['مهم','اہم','Key'],
   left:['باقي {n} مهمة','{n} اہم خانے باقی','{n} key fields left'],
   allDone:['المهم كله معبّى','تمام اہم خانے مکمل','All key fields filled'],
@@ -192,46 +210,58 @@ const T = {
   slow:['ردود الفريق ما وصلت للحين.','ٹیم کے جوابات ابھی نہیں آئے۔','Team responses have not loaded yet.']
 };
 const O = {
-  entity:[['cr',['مؤسسة أو شركة (سجل تجاري)','کمپنی یا ادارہ (تجارتی رجسٹریشن)','Company (commercial registration)']],['fl',['فرد (وثيقة عمل حر)','فرد (فری لانس دستاویز)','Individual (freelance document)']],['unk',['ما أدري','معلوم نہیں','Not sure']]],
+  crState:[['none',['ما عنده سجل','رجسٹریشن نہیں ہے','No registration']],['dk',['ما لقيته / ما أدري','نہیں ملا / معلوم نہیں','Not found / not sure']]],
   techs:[['1',['1','1','1']],['2-3',['2 – 3','2 – 3','2 – 3']],['4-6',['4 – 6','4 – 6','4 – 6']],['7+',['7 أو أكثر','7 یا زیادہ','7 or more']]],
+  vehicle:[['car',['سيارة','گاڑی','Car']],['pickup',['ونيت (بيك أب)','پک اپ','Pickup']],['moto',['دباب','موٹر سائیکل','Motorbike']],['bike',['سيكل','سائیکل','Bicycle']],['transit',['مواصلات عامة أو توصيل','پبلک ٹرانسپورٹ یا کیب','Public transport or ride apps']],['dk',['ما أدري','معلوم نہیں','Not sure']]],
+  range:[['5',['حدود ٥ كم','5 کلومیٹر تک','Up to 5 km']],['10',['حدود ١٠ كم','10 کلومیٹر تک','Up to 10 km']],['20',['حدود ٢٠ كم','20 کلومیٹر تک','Up to 20 km']],['all',['كل الرياض','پورا ریاض','All of Riyadh']]],
+  terminal:[['both',['نعم، مدى وفيزا/ماستركارد','ہاں، مدی اور ویزا/ماسٹر','Yes, mada + Visa/Mastercard']],['mada',['نعم، مدى بس','ہاں، صرف مدی','Yes, mada only']],['none',['لا','نہیں','No']],['dk',['ما أدري','معلوم نہیں','Not sure']]],
+  phones:[['iphone',['آيفون','آئی فون','iPhone']],['android',['أندرويد','اینڈرائیڈ','Android']],['basic',['ما عنده جوال ذكي','اسمارٹ فون نہیں','No smartphone']]],
   role:[['owner',['مالك','مالک','Owner']],['manager',['مدير','منیجر','Manager']],['tech',['فني','کاریگر','Technician']],['worker',['عامل','مزدور','Worker']]],
   verify:[['sms',['رمز SMS (قريبًا)','ایس ایم ایس کوڈ (جلد)','SMS code (soon)']],['none',['ما قدرت أوثقه','تصدیق نہیں ہو سکی','Could not verify']],['later',['أوثقه بعدين','بعد میں تصدیق کروں گا','Verify later']]],
   lang:[['ar',['عربي','عربی','Arabic']],['ur',['أوردو','اردو','Urdu']],['hi',['هندي','ہندی','Hindi']],['bn',['بنغالي','بنگالی','Bengali']],['en',['إنجليزي','انگریزی','English']]],
-  vehicle:[['bike',['سيكل','سائیکل','Bicycle']],['car',['سيارة','گاڑی','Car']],['moto',['دباب','موٹر سائیکل','Motorbike']],['transit',['مواصلات عامة','پبلک ٹرانسپورٹ','Public transport']],['dk',['ما أدري','معلوم نہیں','Not sure']]],
-  areas:[['near',['الحي والقريب منه','یہ محلہ اور آس پاس','This district and nearby']],['n',['شمال','شمال','North']],['e',['شرق','مشرق','East']],['w',['غرب','مغرب','West']],['s',['جنوب','جنوب','South']],['all',['كل الرياض','پورا ریاض','All of Riyadh']]],
-  pay:[['cash',['كاش','نقد','Cash']],['card',['شبكة','کارڈ مشین','Card machine']],['transfer',['تحويل','بینک ٹرانسفر','Bank transfer']]],
   interest:[['yes',['مهتم','دلچسپی ہے','Interested']],['owner',['يبي يكلم المالك أول','پہلے مالک سے بات کرے گا','Needs to ask the owner']],['no',['مو مهتم','دلچسپی نہیں','Not interested']]],
   callTime:[['am',['الصبح','صبح','Morning']],['pm',['العصر','سہ پہر','Afternoon']],['eve',['الليل','رات','Evening']]]
 };
-/* ---------- الخدمات: الأنواع، الأساسيات (محددة جاهزة)، الأسئلة المفصلية ---------- */
+/* ---------- الخدمات: نفس أسماء التطبيق (ملف خيارات الخدمات، ١٤ نوفمبر) ----------
+   مكيفات: نوع المكيف ← خدمات كل نوع (محددة جاهزة، يشيل اللي ما يسويه).
+   سباكة وكهرباء: أنواع الشغل (محددة جاهزة) ← أسئلة مهمة للشي اللي يفرّق بين المحلات.
+   غسالات: الأجهزة. حدائق: مو في التطبيق، للمستقبل.
+   كل سؤال مهم مربوط بنوع أو شغل معيّن يطلع بس لما يكون مختار، وجنبه شارة «خاص بـ…». */
+const SV = {
+  wash:['غسيل وتنظيف','دھلائی اور صفائی','Wash and clean'], freon:['تعبئة فريون','گیس بھرنا','Freon refill'],
+  install:['تركيب مكيف','اے سی لگانا','Install AC'], remove:['فك مكيف','اے سی اتارنا','Remove AC'],
+  duct:['تنظيف الوحدة والدكت','یونٹ اور ڈکٹ کی صفائی','Unit and duct cleaning'], filters:['تغيير فلاتر','فلٹر بدلنا','Filter change'],
+  prep:['تنظيف وتجهيز للصيف','گرمیوں کے لیے صفائی اور تیاری','Clean and prep for summer'], pads:['تغيير القش','گھاس (پیڈ) بدلنا','Pad change'], pump:['تغيير مضخة الماء','پانی کا پمپ بدلنا','Water pump change'],
+  expert:['معاينة وتشخيص («خل الخبير يشوفه»)','چیکنگ اور خرابی معلوم کرنا','Inspection and diagnosis']
+};
 const CATS = [
- {id:'ac',name:['مكيفات','اے سی','Air conditioning'],
+ {id:'ac', name:['مكيفات','اے سی','Air conditioning'], contracts:true,
   types:[['split',['سبليت','اسپلٹ','Split']],['window',['شباك','ونڈو','Window']],['central',['مركزي','سینٹرل','Central']],['desert',['صحراوي','ڈیزرٹ کولر','Desert cooler']]],
-  basics:[['wash',['غسيل وتنظيف','دھلائی اور صفائی','Wash and clean']],['freon',['تعبئة فريون','گیس بھرنا','Freon refill']],['diag',['فحص وتشخيص','چیکنگ اور خرابی معلوم کرنا','Inspection and diagnosis']],['repair',['إصلاح أعطال','خرابی کی مرمت','Fault repair']]],
-  pivots:[['copper',['تأسيس وتمديد مواسير نحاس؟','کاپر پائپنگ کرتا ہے؟','Copper piping and pre-installation?']],['duct',['ينظف الدكت؟','ڈکٹ کی صفائی کرتا ہے؟','Cleans ducts?'],'central'],['pads',['يغيّر القش والمضخة؟','کولر کی گھاس اور پمپ بدلتا ہے؟','Replaces pads and pump?'],'desert'],['contract',['عقود صيانة سنوية؟','سالانہ مینٹیننس کنٹریکٹ؟','Annual maintenance contracts?']]]},
- {id:'plumb',name:['سباكة','پلمبنگ','Plumbing'],types:[],
-  basics:[['leak',['إصلاح تسريب','لیکیج ٹھیک کرنا','Leak repair']],['clog',['تسليك انسداد المجاري','بند نالی کھولنا','Unclogging drains']],['fit',['تركيب مغاسل وخلاطات','واش بیسن اور مکسر لگانا','Installing sinks and mixers']],['toilet',['إصلاح سيفون وكرسي حمام','فلش اور کموڈ کی مرمت','Toilet and flush repair']]],
-  pivots:[['heater',['سخانات (تركيب وإصلاح)؟','گیزر لگانا اور مرمت؟','Water heaters (install and repair)?']],['pump',['مضخات الماء (الدينمو)؟','پانی کی موٹر؟','Water pumps?']],['detect',['كشف تسربات بالأجهزة؟','مشین سے لیکیج تلاش کرنا؟','Electronic leak detection?']],['tank',['تنظيف وعزل خزانات؟','ٹینکی کی صفائی اور واٹر پروفنگ؟','Tank cleaning and waterproofing?']],['pipes',['تأسيس وتمديد مواسير؟','نئی پائپ لائن بچھانا؟','New pipework?']]]},
- {id:'elec',name:['كهرباء','بجلی','Electrical'],types:[],
-  basics:[['breaker',['إصلاح قواطع وأعطال','بریکر اور خرابی کی مرمت','Breakers and fault repair']],['socket',['تركيب أفياش ومفاتيح','ساکٹ اور سوئچ لگانا','Sockets and switches']],['light',['تركيب إنارة وثريات ومراوح','لائٹ، فانوس اور پنکھے لگانا','Lights, chandeliers and fans']]],
-  pivots:[['wiring',['تأسيس وتمديد جديد؟','نئی وائرنگ؟','New wiring?']],['board',['لوحة التوزيع (الطبلون)؟','ڈسٹری بیوشن بورڈ؟','Distribution board?']],['eheater',['سخانات كهربائية؟','الیکٹرک گیزر؟','Electric water heaters?']],['cctv',['كاميرات وإنتركم؟','کیمرے اور انٹرکام؟','Cameras and intercom?']]]},
- {id:'appl',name:['غسالات وأجهزة','واشنگ مشین اور آلات','Washers and appliances'],
-  types:[['washer',['غسالة ملابس','واشنگ مشین','Washing machine']],['dish',['غسالة صحون','ڈش واشر','Dishwasher']],['fridge',['ثلاجة وفريزر','فریج اور فریزر','Fridge and freezer']],['oven',['فرن وغاز','اوون اور چولہا','Oven and stove']],['dryer',['نشافة','ڈرائر','Dryer']]],
-  basics:[],
-  pivots:[['home',['يصلح في بيت العميل؟','گاہک کے گھر پر مرمت کرتا ہے؟','Repairs at the customer\'s home?']],['parts',['يوفر قطع الغيار؟','اسپیئر پارٹس مہیا کرتا ہے؟','Supplies spare parts?']]]},
- {id:'garden',name:['حدائق','باغبانی','Gardening'],types:[],
-  basics:[['mow',['قص العشب','گھاس کاٹنا','Lawn mowing']],['trim',['تشذيب الأشجار','درختوں کی کٹائی','Tree trimming']],['plant',['زراعة وتنسيق','پودے لگانا اور سجاوٹ','Planting and landscaping']],['water',['ري وتسميد','پانی اور کھاد دینا','Watering and fertilising']]],
-  pivots:[['irrig',['يركّب شبكة ري؟','آبپاشی کا نظام لگاتا ہے؟','Installs irrigation systems?']],['turf',['عشب صناعي؟','مصنوعی گھاس؟','Artificial grass?']],['palm',['خدمة النخل (تلقيح وتكريب)؟','کھجور کے درختوں کا کام؟','Palm tree care?']],['pest',['مكافحة آفات؟','کیڑے مار اسپرے؟','Pest control?']],['regular',['بستاني بزيارات دورية؟','باقاعدہ مالی کی سروس؟','Regular gardener visits?']]]}
+  typeSvc:{split:['wash','freon','install','remove','expert'], window:['wash','freon','install','remove','expert'], central:['duct','freon','filters','expert'], desert:['prep','pads','pump','expert']},
+  pivots:[['copper',['تأسيس وتمديد مواسير نحاس للتركيب؟','نئی تنصیب کے لیے تانبے کی پائپ لگاتا ہے؟','Copper piping for new installs?'],['split','window']]]},
+ {id:'plumbing', name:['سباكة','پلمبنگ','Plumbing'], contracts:true,
+  groups:[['clog',['الانسدادات','بند نالی کھولنا','Blockages']],['bath',['الحمّام (كراسي، سيفون، شطاف، مغاسل)','باتھ روم (کموڈ، فلش، شاور، بیسن)','Bathroom (toilets, flush, bidet, basins)']],['mixers',['الخلاطات والمحابس','مکسر اور والو','Mixers and valves']],['heaters',['السخانات','گیزر','Water heaters']],['tanks',['الخزانات والمضخات (الدينمو)','ٹینکی اور موٹر','Tanks and pumps']],['leaks',['التسريبات','لیکیج','Leaks']]],
+  pivots:[['detect',['يكشف التسريب داخل الجدار بالأجهزة؟','دیوار کے اندر لیکیج مشین سے ڈھونڈتا ہے؟','Finds in-wall leaks with equipment?'],['leaks']],['hidden',['يركّب سخان مخفي أو مركزي؟','چھپا ہوا یا سینٹرل گیزر لگاتا ہے؟','Installs concealed or central heaters?'],['heaters']],['pumpin',['يركّب مضخة (دينمو) جديدة؟','نئی موٹر لگاتا ہے؟','Installs new pumps?'],['tanks']]]},
+ {id:'electrical', name:['كهرباء','بجلی','Electrical'], contracts:true,
+  groups:[['light',['الإنارة (لمبات، سبوت، ثريات)','لائٹس (بلب، اسپاٹ، فانوس)','Lighting (bulbs, spots, chandeliers)']],['sockets',['الأفياش والمفاتيح','ساکٹ اور سوئچ','Sockets and switches']],['fans',['المراوح (سقف وشفط)','پنکھے (چھت اور ایگزاسٹ)','Fans (ceiling and exhaust)']],['board',['القواطع واللوحة','بریکر اور بورڈ','Breakers and board']],['bells',['الأجراس والكشافات والانتركوم','گھنٹی، فلڈ لائٹ، انٹرکام','Bells, floodlights, intercom']]],
+  pivots:[['panel',['يركّب أو يعدّل لوحة توزيع كاملة؟','پورا ڈسٹری بیوشن بورڈ لگاتا یا بدلتا ہے؟','Installs or rebuilds a full distribution board?'],['board']],['led',['يحوّل الإنارة إلى ليد؟','لائٹس کو ایل ای ڈی میں بدلتا ہے؟','Converts lighting to LED?'],['light']]]},
+ {id:'washers', name:['غسالات','واشنگ مشین','Washers'], contracts:false,
+  devices:[['washer',['غسالة ملابس','کپڑوں کی واشنگ مشین','Washing machine']],['twin',['غسالة حوضين','دو ٹب والی مشین','Twin-tub washer']],['dish',['غسالة صحون','ڈش واشر','Dishwasher']],['dryer',['نشافة','ڈرائر','Dryer']]],
+  pivots:[['home',['يصلّح في بيت العميل؟','گاہک کے گھر جا کر ٹھیک کرتا ہے؟','Repairs at the customer\'s home?']],['install',['يركّب ويمدّد غسالة جديدة؟','نئی مشین لگاتا اور پائپ جوڑتا ہے؟','Installs and connects new machines?']],['parts',['يوفّر قطع الغيار؟','اسپیئر پارٹس دیتا ہے؟','Supplies spare parts?']]]},
+ {id:'garden', name:['حدائق','باغبانی','Gardening'], contracts:true, notInApp:true,
+  groups:[['mow',['قص العشب','گھاس کاٹنا','Lawn mowing']],['trim',['تشذيب الأشجار','درختوں کی کٹائی','Tree trimming']],['plant',['زراعة وتنسيق','پودے لگانا اور سجاوٹ','Planting and landscaping']],['water',['ري وتسميد','پانی اور کھاد','Watering and fertilising']]],
+  pivots:[['irrig',['يركّب شبكة ري؟','آبپاشی کا نظام لگاتا ہے؟','Installs irrigation?']],['turf',['عشب صناعي؟','مصنوعی گھاس؟','Artificial grass?']],['palm',['خدمة النخل (تلقيح وتكريب)؟','کھجور کے درختوں کا کام؟','Palm tree care?']],['pest',['مكافحة آفات؟','کیڑے مار اسپرے؟','Pest control?']]]}
 ];
 
 /* ---------- الحالة ---------- */
 const LS = {get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 let lang = LS.get('shopSurvey.lang','dual');
 let view = 'form', lastRec = null, confirmMissing = false, flash = '';
-const fresh = () => ({agent:LS.get('shopSurvey.agent',''),shop:{name:'',district:'',map:'',entity:'',techs:''},owner:{name:'',phone:''},contact:{name:'',role:'',phone:'',verify:'',lang:'',vehicle:[]},cats:{},otherCat:'',work:{areas:[],pay:[],warranty:'',fee:''},interest:'',callTime:[],notes:'',oth:{},othText:{}});
+const fresh = () => ({agent:LS.get('shopSurvey.agent',''),shop:{name:'',district:'',map:'',cr:'',crState:''},owner:{name:'',phone:''},contact:{name:'',role:'',phone:'',verify:'',lang:''},cats:{},work:{techs:'',vehicle:[],range:'',branch:'',branchWhere:'',terminal:'',wallets:'',appPay:'',warranty:'',fee:'',phones:[]},interest:'',callTime:[],notes:'',oth:{},othText:{}});
 let S = Object.assign(fresh(), LS.get('shopSurvey.draft',null) || {});
 if(!Array.isArray(S.callTime)) S.callTime = S.callTime ? [S.callTime] : [];
-if(S.contact && !Array.isArray(S.contact.vehicle)) S.contact.vehicle = [];
+S.work = Object.assign(fresh().work, S.work||{}); S.shop = Object.assign(fresh().shop, S.shop||{});
+if(!Array.isArray(S.work.vehicle)) S.work.vehicle = (S.contact&&Array.isArray(S.contact.vehicle)) ? S.contact.vehicle : [];
 let mine = LS.get('shopSurvey.saved',[]);
 let db = null, team = null, teamSlow = false, locMsg = '';
 
@@ -244,20 +274,14 @@ const set = (p,v) => {const ks=p.split('.');let o=S;for(let i=0;i<ks.length-1;i+
 const digits = s => String(s||'').replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
 const phoneOk = s => {const d=digits(s).replace(/[\s-]/g,'');return /^(05\d{8}|\+?9665\d{8})$/.test(d)};
 const catOn = id => S.cats[id] && S.cats[id].on;
-const keys = () => [['shop.name','shopName'],['shop.district','district'],['contact.phone','cPhone'],['#serv','services']].concat(catOn('ac')?[['cats.ac.piv.truck','truck']]:[],[['owner.phone','ownerPhone'],['interest','interest']]);
+const keys = () => [['shop.name','shopName'],['shop.district','district'],['#serv','services']].concat(catOn('ac')?[['cats.ac.piv.truck','truck']]:[],[['contact.phone','cPhone'],['owner.phone','ownerPhone'],['interest','interest']]);
 const okey = p => p.replace(/\./g,'_');
 const oText = p => S.oth[okey(p)] ? String(S.othText[okey(p)]||'').trim() : '';
 const filled = p => p==='#serv' ? (CATS.some(c=>catOn(c.id)) || !!oText('cats')) : !!String(get(p)||'').trim();
 const missing = () => keys().filter(([p])=>!filled(p));
+const crOk = s => /^\d{10}$/.test(digits(s).replace(/\s/g,''));
 
 /* ---------- عناصر الرسم ---------- */
-function field(path,label,o={}){
-  const v=get(path)||'', key=o.key, ok=key&&filled(path), id='f-'+path.replace(/\./g,'-');
-  const tag = key?`<span class="tag">${ok?'✓':esc(lang==='dual'?T.key[0]:tx(T.key))}</span>`:'';
-  const inp = o.area ? `<textarea id="${id}" data-path="${path}">${esc(v)}</textarea>` : `<input id="${id}" type="${o.type||'text'}" ${o.mode?`inputmode="${o.mode}"`:''} ${o.ac?`autocomplete="${o.ac}"`:''} data-path="${path}" value="${esc(v)}" ${o.ph?`placeholder="${esc(o.ph)}"`:''}>`;
-  const hint = o.type==='tel' ? `<div class="warn" data-phone-hint="${path}" ${(!v||phoneOk(v))?'hidden':''}>${esc(lang==='dual'?T.phoneHint[0]:tx(T.phoneHint))}</div>` : '';
-  return `<div class="f ${key?'key':''} ${ok?'ok':''}" data-wrap="${path}"><label class="lab" for="${id}"><span>${L(label)}</span>${tag}</label>${inp}${hint}</div>`;
-}
 function chips(path,opts,o={}){
   const cur=get(path), many=o.many;
   const btns=opts.map(([v,t])=>{const on=o.invert?!(cur||[]).includes(v):(many?(cur||[]).includes(v):cur===v);const dis=o.disabled&&o.disabled.includes(v);
@@ -272,35 +296,74 @@ function group(label,inner,o={}){
   const tag = key?`<span class="tag">${ok?'✓':esc(lang==='dual'?T.key[0]:tx(T.key))}</span>`:'';
   return `<div class="f ${key?'key':''} ${ok?'ok':''}"><div class="lab"><span>${L(label)}</span>${tag}</div>${o.hint?`<div class="hint">${L(o.hint)}</div>`:''}${inner}</div>`;
 }
+function field(path,label,o={}){
+  const v=get(path)||'', key=o.key, ok=key&&filled(path), id='f-'+path.replace(/\./g,'-'), one=a=>lang==='dual'?a[0]:tx(a);
+  const tag = key?`<span class="tag">${ok?'✓':esc(one(T.key))}</span>`:'';
+  const ph = o.ph?` placeholder="${esc(o.ph)}"`:'';
+  const inp = o.area ? `<textarea id="${id}" data-path="${path}"${ph}>${esc(v)}</textarea>` : `<input id="${id}" type="${o.type||'text'}" ${o.mode?`inputmode="${o.mode}"`:''} ${o.ac?`autocomplete="${o.ac}"`:''} data-path="${path}" value="${esc(v)}"${ph}>`;
+  const chk = o.cr ? 'cr' : (o.type==='tel' ? 'phone' : '');
+  const bad = chk==='cr' ? (v && !crOk(v)) : (chk==='phone' ? (v && !phoneOk(v)) : false);
+  const hint = chk ? `<div class="warn" data-check="${chk}" data-for="${path}" ${bad?'':'hidden'}>${esc(one(chk==='cr'?T.crWarn:T.phoneHint))}</div>` : '';
+  const sub = o.cr ? `<div class="hint">${L(T.crHint)}</div>` : '';
+  return `<div class="f ${key?'key':''} ${ok?'ok':''}" data-wrap="${path}"><label class="lab" for="${id}"><span>${L(label)}</span>${tag}</label>${inp}${hint}${sub}</div>`;
+}
+const fill = (a,t) => a.map(s=>s.replace('{t}',t));
+const optName = (c,id) => { const o=(c.types||c.groups||c.devices||[]).find(x=>x[0]===id); return o?o[1]:[id,id,id]; };
+function pivReq(c,st,req){ if(!req) return true; if(c.types) return req.some(r=>(st.types||[]).includes(r)); if(c.groups) return req.some(r=>!(st.off||[]).includes(r)); return true; }
+function pivRow(path,label,cur,badge){
+  const b=(v,lab,cls)=>`<button type="button" class="chip ${cls}" data-k="one" data-path="${path}" data-v="${v}" aria-pressed="${cur===v}">${L(lab)}</button>`;
+  return `<div class="piv"><div class="q">${L(label)}${badge?` <span class="badge">${esc(badge)}</span>`:''}</div><div class="yn">${b('y',T.yes,'')}${b('n',T.no,'no')}${b('dk',T.dk,'no')}</div></div>`;
+}
 function catPanel(c){
-  const st=S.cats[c.id], base='cats.'+c.id; let h=`<div class="panel"><h2>${L(c.name)}</h2>`;
+  const st=S.cats[c.id], base='cats.'+c.id, one=a=>lang==='dual'?a[0]:tx(a);
+  let h=`<div class="panel"><h2>${L(c.name)}</h2>`;
+  if(c.notInApp) h+=`<div class="hint">${L(T.notInApp)}</div>`;
   if(c.id==='ac') h+=group(T.truck,chips(base+'.piv.truck',YND()),{key:base+'.piv.truck'});
-  if(c.types.length) h+=`<div class="f"><h3>${L(T.types)}</h3>${chips(base+'.types',c.types,{many:true,other:true})}</div>`;
-  if(c.basics.length) h+=`<div class="f"><h3>${L(T.basics)}</h3>${chips(base+'.off',c.basics,{many:true,invert:true,other:true})}</div>`;
-  const pv=c.pivots.filter(p=>!p[2]||(st.types||[]).includes(p[2]));
-  if(pv.length){h+=`<div class="f" style="gap:0"><h3 style="padding-bottom:6px">${L(T.pivots)}</h3>`;
-    pv.forEach(([id,t])=>{const cur=(st.piv||{})[id];const b=(v,lab,cls)=>`<button type="button" class="chip ${cls}" data-k="one" data-path="${base}.piv.${id}" data-v="${v}" aria-pressed="${cur===v}">${L(lab)}</button>`;
-      h+=`<div class="piv"><div class="q">${L(t)}</div><div class="yn">${b('y',T.yes,'')}${b('n',T.no,'no')}${b('dk',T.dk,'no')}</div></div>`});
-    h+='</div>'}
+  if(c.types){
+    h+=`<div class="f"><h3>${L(T.typesQ)}</h3>${chips(base+'.types',c.types,{many:true,other:true})}</div>`;
+    (st.types||[]).forEach(t=>{ const tn=optName(c,t), svc=(c.typeSvc[t]||[]).map(s=>[s,SV[s]]);
+      h+=`<div class="f"><h3><span class="badge">${esc(one(tn))}</span>${L(T.typeSvc)}</h3>`+chips(base+'.off.'+t,svc,{many:true,invert:true})+`</div>`; });
+  }
+  if(c.groups) h+=`<div class="f"><h3>${L(T.groupsQ)}</h3>${chips(base+'.off',c.groups,{many:true,invert:true,other:true})}</div>`;
+  if(c.devices) h+=`<div class="f"><h3>${L(T.devicesQ)}</h3>${chips(base+'.types',c.devices,{many:true,other:true})}</div>`;
+  const pv=c.pivots.filter(p=>pivReq(c,st,p[2]));
+  h+=`<div class="f" style="gap:0"><h3 style="padding-bottom:6px">${L(T.pivots)}</h3>`;
+  pv.forEach(([id,t,req])=>{ const badge=req?one(fill(T.onlyFor, req.map(r=>one(optName(c,r)).replace(/\s*\(.*\)$/,'')).join(' و'))):'';
+    h+=pivRow(base+'.piv.'+id,t,(st.piv||{})[id],badge); });
+  if(c.contracts) h+=pivRow(base+'.piv.contracts',T.contracts,(st.piv||{}).contracts,'');
+  h+=`</div>`;
+  h+=field(base+'.top',T.top,{area:1,ph:one(T.topPh)});
   h+='</div>'; return h;
 }
-function render(){
-  document.documentElement.lang = lang==='dual'?'ar':lang; document.documentElement.dir = lang==='en'?'ltr':'rtl';
-  document.getElementById('eyebrow').innerHTML=L(T.eyebrow); document.getElementById('title').innerHTML=L(T.title);
-  document.getElementById('langs').innerHTML=[['dual','عربي + اردو'],['ar','عربي'],['ur','اردو'],['en','English']].map(([k,n])=>`<button type="button" data-lang="${k}" aria-pressed="${lang===k}">${n}</button>`).join('');
-  const f=document.getElementById('form'), bar=document.getElementById('bar');
-  if(view==='done'){ bar.hidden=true; f.innerHTML=doneView(); renderLists(); return; }
-  bar.hidden=false;
+function formHTML(){
   const catBtns=CATS.map(c=>`<button type="button" class="chip big" data-k="cat" data-v="${c.id}" aria-pressed="${!!catOn(c.id)}">${L(c.name)}</button>`).join('');
-  f.innerHTML = `
+  const one=a=>lang==='dual'?a[0]:tx(a);
+  return `
   <section>${field('agent',T.agent,{ac:'name'})}</section>
   <section><h2>${L(T.sShop)}</h2>
     ${field('shop.name',T.shopName,{key:1})}
     ${field('shop.district',T.district,{key:1})}
-    <div class="f"><button type="button" class="btn ghost" id="locBtn">${esc(lang==='dual'?T.locBtn[0]:tx(T.locBtn))}</button><div class="hint" id="locMsg">${esc(locMsg||(lang==='dual'?T.locHint[0]:tx(T.locHint)))}</div></div>
+    <div class="f"><button type="button" class="btn ghost" id="locBtn">${esc(one(T.locBtn))}</button><div class="hint" id="locMsg">${esc(locMsg||one(T.locHint))}</div></div>
     ${field('shop.map',T.map,{type:'url',mode:'url',ph:'https://maps.app.goo.gl/...'})}
-    ${group(T.entity,chips('shop.entity',O.entity,{other:true}))}
-    ${group(T.techs,chips('shop.techs',O.techs))}
+    ${field('shop.cr',T.cr,{type:'tel',mode:'numeric',ph:'70XXXXXXXX',cr:1})}
+    ${chips('shop.crState',O.crState)}
+  </section>
+  <section><h2>${L(T.sServ)}</h2>
+    ${group(T.servHint,`<div class="chips">${catBtns}${otherChip('cats')}</div>${otherInput('cats')}`,{key:'#serv'})}
+    ${CATS.filter(c=>catOn(c.id)).map(catPanel).join('')}
+  </section>
+  <section><h2>${L(T.sWork)}</h2>
+    ${group(T.techs,chips('work.techs',O.techs))}
+    ${group(T.vehicle,chips('work.vehicle',O.vehicle,{many:true,other:true}))}
+    ${group(T.range,chips('work.range',O.range,{other:true}))}
+    ${group(T.branch,chips('work.branch',YND()))}
+    ${S.work.branch==='y'?field('work.branchWhere',T.branchWhere):''}
+    ${group(T.terminal,chips('work.terminal',O.terminal))}
+    ${group(T.wallets,chips('work.wallets',YND()))}
+    ${group(T.appPay,chips('work.appPay',YND()))}
+    ${group(T.warranty,chips('work.warranty',YND()))}
+    ${field('work.fee',T.fee,{type:'number',mode:'numeric'})}
+    ${group(T.phones,chips('work.phones',O.phones,{many:true,other:true}))}
   </section>
   <section><h2>${L(T.sPeople)}</h2>
     ${field('contact.name',T.cName)}
@@ -308,16 +371,6 @@ function render(){
     ${field('contact.phone',T.cPhone,{key:1,type:'tel',mode:'tel',ph:'05XXXXXXXX'})}
     ${group(T.verify,chips('contact.verify',O.verify,{disabled:['sms']}),{hint:T.verifyNote})}
     ${group(T.cLang,chips('contact.lang',O.lang,{other:true}))}
-    ${group(T.vehicle,chips('contact.vehicle',O.vehicle,{many:true,other:true}))}
-  </section>
-  <section><h2>${L(T.sServ)}</h2>
-    ${group(T.servHint,`<div class="chips">${catBtns}${otherChip('cats')}</div>${otherInput('cats')}`,{key:'#serv'})}
-    ${CATS.filter(c=>catOn(c.id)).map(catPanel).join('')}
-  </section>
-  <section><h2>${L(T.sWork)}</h2>
-    ${group(T.pay,chips('work.pay',O.pay,{many:true,other:true}))}
-    ${group(T.warranty,chips('work.warranty',YND()))}
-    ${field('work.fee',T.fee,{type:'number',mode:'numeric'})}
   </section>
   <section><h2>${L(T.sOwner)}</h2>
     ${field('owner.name',T.ownerName)}
@@ -326,6 +379,16 @@ function render(){
     ${group(T.interest,chips('interest',O.interest),{key:'interest'})}
     ${field('notes',T.notes,{area:1})}
   </section>`;
+}
+
+function render(){
+  document.documentElement.lang = lang==='dual'?'ar':lang; document.documentElement.dir = lang==='en'?'ltr':'rtl';
+  document.getElementById('eyebrow').innerHTML=L(T.eyebrow); document.getElementById('title').innerHTML=L(T.title);
+  document.getElementById('langs').innerHTML=[['dual','عربي + اردو'],['ar','عربي'],['ur','اردو'],['en','English']].map(([k,n])=>`<button type="button" data-lang="${k}" aria-pressed="${lang===k}">${n}</button>`).join('');
+  const f=document.getElementById('form'), bar=document.getElementById('bar');
+  if(view==='done'){ bar.hidden=true; f.innerHTML=doneView(); renderLists(); return; }
+  bar.hidden=false;
+  f.innerHTML = formHTML();
   renderBar(); renderLists();
 }
 function renderBar(){
@@ -339,37 +402,70 @@ function renderBar(){
 }
 
 /* ---------- بناء السجل والملخص (بالعربي دائمًا للفريق) ---------- */
-const ar = (list,v) => {const o=list.find(x=>x[0]===v);return o?o[1][0]:''};
+const ar = (list,v) => {const o=(list||[]).find(x=>x[0]===v);return o?o[1][0]:''};
 const arMany = (list,vs,p) => (vs||[]).map(v=>ar(list,v)).filter(Boolean).concat(p&&oText(p)?[oText(p)]:[]).join('، ');
 const arOne = (list,v,p) => [ar(list,v), p?oText(p):''].filter(Boolean).join('، ');
 const ynd = v => ({y:'نعم',n:'لا',dk:'غير معروف'})[v]||'';
-function servText(){
-  const out=[];
-  CATS.filter(c=>catOn(c.id)).forEach(c=>{const st=S.cats[c.id], off=st.off||[], piv=st.piv||{};
-    const parts=[];
-    const base='cats.'+c.id, ty=arMany(c.types,st.types,base+'.types');
-    if(c.id==='ac'&&piv.truck) parts.push('سيارة نقل بين البيوت: '+ynd(piv.truck));
-    if(ty) parts.push('الأنواع: '+ty);
-    const does=c.basics.filter(b=>!off.includes(b[0])).map(b=>b[1][0]).concat(oText(base+'.off')?[oText(base+'.off')]:[]);
-    const d=act=>act.filter(p=>piv[p[0]]==='dk').map(p=>p[1][0].replace('؟',''));
-    const act=c.pivots.filter(p=>!p[2]||(st.types||[]).includes(p[2]));
-    const y=act.filter(p=>piv[p[0]]==='y').map(p=>p[1][0].replace('؟',''));
-    const n=act.filter(p=>piv[p[0]]==='n').map(p=>p[1][0].replace('؟','')).concat(c.basics.filter(b=>off.includes(b[0])).map(b=>b[1][0]));
-    if(does.concat(y).length) parts.push('يسوي: '+does.concat(y).join('، '));
-    if(n.length) parts.push('ما يسوي: '+n.join('، '));
-    if(d(act).length) parts.push('غير معروف: '+d(act).join('، '));
-    out.push(c.name[0]+(parts.length?' ('+parts.join(' | ')+')':''))});
-  if(oText('cats')) out.push('خدمة أخرى: '+oText('cats'));
-  return out;
+const clean = s => String(s||'').replace(/\s*\(.*?\)\s*/g,' ').replace(/[«»]/g,'').trim();
+/* لكل فئة: ملخص نصي للجدول + بيانات منظمة بنفس مفاتيح التطبيق للربط مع لوحة التحكم */
+function catInfo(c){
+  const st=S.cats[c.id]||{}, base='cats.'+c.id, piv=st.piv||{}, parts=[], data={};
+  if(c.types){
+    const ty=(st.types||[]); data.types=ty.slice(); if(oText(base+'.types')) data.typesOther=oText(base+'.types');
+    const tyTxt=arMany(c.types,ty,base+'.types'); if(tyTxt) parts.push('الأنواع: '+tyTxt);
+    data.services={};
+    ty.forEach(t=>{ const all=c.typeSvc[t]||[], off=((st.off||{})[t])||[], on=all.filter(s=>!off.includes(s));
+      data.services[t]=on;
+      parts.push(ar(c.types,t)+': '+(on.map(s=>clean(SV[s][0])).join('، ')||'—')+(off.length?' (ما يسوي: '+off.map(s=>clean(SV[s][0])).join('، ')+')':'')); });
+  }
+  if(c.groups){
+    const off=st.off||[], on=c.groups.map(g=>g[0]).filter(g=>!off.includes(g));
+    data.groups=on; if(oText(base+'.off')) data.groupsOther=oText(base+'.off');
+    parts.push('يسوي: '+(on.map(g=>clean(ar(c.groups,g))).concat(oText(base+'.off')?[oText(base+'.off')]:[]).join('، ')||'—'));
+    if(off.length) parts.push('ما يسوي: '+off.map(g=>clean(ar(c.groups,g))).join('، '));
+  }
+  if(c.devices){
+    data.devices=(st.types||[]).slice(); if(oText(base+'.types')) data.devicesOther=oText(base+'.types');
+    const dv=arMany(c.devices,st.types,base+'.types'); if(dv) parts.push('الأجهزة: '+dv);
+  }
+  data.pivots={};
+  c.pivots.filter(p=>pivReq(c,st,p[2])).forEach(([id,t])=>{ if(piv[id]){ data.pivots[id]=piv[id]; parts.push(t[0].replace('؟','')+': '+ynd(piv[id])); } });
+  if(c.id==='ac') data.truck=piv.truck||'';
+  if(c.contracts) data.contracts=piv.contracts||'';
+  data.top=String(st.top||'').trim();
+  return {text:parts.join(' | '), data};
 }
 function buildRec(){
-  const serv=servText(), ph=s=>digits(s).replace(/[\s-]/g,'');
-  const row={date:new Date().toISOString(),agent:S.agent.trim(),shop:S.shop.name.trim(),district:S.shop.district.trim(),entity:arOne(O.entity,S.shop.entity,'shop.entity'),techs:ar(O.techs,S.shop.techs),ownerName:S.owner.name.trim(),ownerPhone:ph(S.owner.phone),contactName:S.contact.name.trim(),contactRole:arOne(O.role,S.contact.role,'contact.role'),contactPhone:ph(S.contact.phone),verify:ar(O.verify,S.contact.verify),contactLang:arOne(O.lang,S.contact.lang,'contact.lang'),vehicle:arMany(O.vehicle,S.contact.vehicle,'contact.vehicle'),categories:CATS.filter(c=>catOn(c.id)).map(c=>c.name[0]).concat(oText('cats')?[oText('cats')]:[]).join('، '),acTruck:catOn('ac')?ynd((S.cats.ac.piv||{}).truck):'',services:serv.join(' ؛ '),pay:arMany(O.pay,S.work.pay,'work.pay'),warranty:ynd(S.work.warranty),fee:digits(S.work.fee),interest:ar(O.interest,S.interest),callTime:arMany(O.callTime,Array.isArray(S.callTime)?S.callTime:(S.callTime?[S.callTime]:[]),'callTime'),notes:S.notes.trim(),map:S.shop.map.trim()};
+  const ph=s=>digits(s).replace(/[\s-]/g,''), on=CATS.filter(c=>catOn(c.id)), info={};
+  on.forEach(c=>info[c.id]=catInfo(c));
+  const per=id=>info[id]?info[id].text:'';
+  const contracts=on.filter(c=>c.contracts&&info[c.id].data.contracts).map(c=>c.name[0]+': '+ynd(info[c.id].data.contracts)).join('، ');
+  const tops=on.filter(c=>info[c.id].data.top).map(c=>c.name[0]+': '+info[c.id].data.top).join(' | ');
+  const crTxt = S.shop.cr ? ph(S.shop.cr) : ar(O.crState,S.shop.crState);
+  const row={date:new Date().toISOString(),agent:S.agent.trim(),shop:S.shop.name.trim(),district:S.shop.district.trim(),
+    interest:ar(O.interest,S.interest),ownerName:S.owner.name.trim(),ownerPhone:ph(S.owner.phone),callTime:arMany(O.callTime,S.callTime,'callTime'),
+    contactName:S.contact.name.trim(),contactRole:arOne(O.role,S.contact.role,'contact.role'),contactPhone:ph(S.contact.phone),verify:ar(O.verify,S.contact.verify),contactLang:arOne(O.lang,S.contact.lang,'contact.lang'),
+    cr:crTxt,categories:on.map(c=>c.name[0]).concat(oText('cats')?[oText('cats')]:[]).join('، '),
+    ac:per('ac'),acTruck:info.ac?ynd(info.ac.data.truck):'',plumbing:per('plumbing'),electrical:per('electrical'),washers:per('washers'),garden:per('garden'),otherCat:oText('cats'),
+    contracts,topServices:tops,
+    techs:ar(O.techs,S.work.techs),vehicle:arMany(O.vehicle,S.work.vehicle,'work.vehicle'),range:arOne(O.range,S.work.range,'work.range'),
+    branch:[ynd(S.work.branch),S.work.branch==='y'?String(S.work.branchWhere||'').trim():''].filter(Boolean).join(': '),
+    terminal:ar(O.terminal,S.work.terminal),wallets:ynd(S.work.wallets),appPay:ynd(S.work.appPay),warranty:ynd(S.work.warranty),fee:digits(S.work.fee),
+    phones:arMany(O.phones,S.work.phones,'work.phones'),notes:S.notes.trim(),map:S.shop.map.trim()};
+  row.data=JSON.stringify({v:3,cr:S.shop.cr?ph(S.shop.cr):'',crState:S.shop.crState||'',categories:Object.fromEntries(on.map(c=>[c.id,info[c.id].data])),otherCategory:oText('cats'),
+    work:{techs:S.work.techs||'',vehicle:S.work.vehicle||[],range:S.work.range||'',branch:S.work.branch||'',terminal:S.work.terminal||'',wallets:S.work.wallets||'',appPay:S.work.appPay||'',warranty:S.work.warranty||'',phones:S.work.phones||[]}});
   const ln=(k,v)=>v?k+': '+v:null;
-  const text=['تسجيل محل جديد',ln('المحل',row.shop),ln('الحي',row.district),ln('الموقع',row.map),ln('النشاط',row.entity),ln('عدد الفنيين',row.techs),ln('جوال المالك',row.ownerPhone+(row.ownerName?' ('+row.ownerName+')':'')),ln('اللي كلمته',[row.contactName,row.contactRole,row.contactPhone].filter(Boolean).join(' / ')),ln('توثيق الرقم',row.verify),ln('لغته',row.contactLang),ln('وسيلة التنقّل',row.vehicle),serv.length?'الخدمات:\n- '+serv.join('\n- '):null,ln('الدفع',row.pay),ln('ضمان',row.warranty),ln('رسوم الزيارة',row.fee),ln('الاهتمام',row.interest),ln('أفضل وقت للتواصل مع المالك',row.callTime),ln('ملاحظات',row.notes),ln('الموظف',row.agent)].filter(Boolean).join('\n');
+  const text=['تسجيل محل جديد',ln('المحل',row.shop),ln('الحي',row.district),ln('الموقع',row.map),ln('السجل التجاري',row.cr),
+    on.length||row.otherCat?'الخدمات:\n- '+on.map(c=>c.name[0]+(info[c.id].text?' ('+info[c.id].text+')':'')).concat(row.otherCat?['أخرى: '+row.otherCat]:[]).join('\n- '):null,
+    ln('سيارة نقل مكيفات',row.acTruck),ln('عقود الصيانة',row.contracts),ln('أشهر خدماته',row.topServices),
+    ln('عدد الفنيين',row.techs),ln('وسائل التنقّل',row.vehicle),ln('نطاق التغطية',row.range),ln('فرع ثاني',row.branch),
+    ln('جهاز الشبكة',row.terminal),ln('STC Pay وبرق',row.wallets),ln('الدفع عن طريق التطبيق',row.appPay),ln('ضمان',row.warranty),ln('رسوم الزيارة',row.fee),ln('جوالات الفنيين',row.phones),
+    ln('اللي كلمته',[row.contactName,row.contactRole,row.contactPhone].filter(Boolean).join(' / ')),ln('توثيق الرقم',row.verify),ln('لغته',row.contactLang),
+    ln('جوال المالك',row.ownerPhone+(row.ownerName?' ('+row.ownerName+')':'')),ln('أفضل وقت للتواصل مع المالك',row.callTime),ln('الاهتمام',row.interest),
+    ln('ملاحظات',row.notes),ln('الموظف',row.agent)].filter(Boolean).join('\n');
   return {id:'s'+Date.now().toString(36)+Math.random().toString(36).slice(2,7),row,text,data:JSON.parse(JSON.stringify(S)),synced:false};
 }
-const COLS=[['date','التاريخ'],['agent','الموظف'],['shop','المحل'],['district','الحي'],['entity','النشاط'],['techs','الفنيين'],['ownerName','المالك'],['ownerPhone','جوال المالك'],['contactName','المتحدث'],['contactRole','وظيفته'],['contactPhone','جواله'],['verify','التوثيق'],['contactLang','لغته'],['vehicle','وسيلة التنقّل'],['categories','الفئات'],['acTruck','سيارة نقل مكيفات'],['services','تفاصيل الخدمات'],['pay','الدفع'],['warranty','ضمان'],['fee','رسوم الزيارة'],['interest','الاهتمام'],['callTime','وقت التواصل مع المالك'],['notes','ملاحظات'],['map','الموقع']];
+const COLS=[['date','التاريخ'],['agent','الموظف'],['shop','اسم المحل'],['district','الحي'],['interest','مهتم ينضم؟'],['ownerName','اسم المالك'],['ownerPhone','جوال المالك'],['callTime','أفضل وقت للتواصل مع المالك'],['contactName','اللي كلمه'],['contactRole','وظيفته'],['contactPhone','جواله'],['verify','توثيق الرقم'],['contactLang','لغته'],['cr','السجل التجاري'],['categories','الفئات'],['ac','مكيفات'],['acTruck','سيارة نقل مكيفات'],['plumbing','سباكة'],['electrical','كهرباء'],['washers','غسالات'],['garden','حدائق'],['otherCat','فئات أخرى'],['contracts','مهتم بعقود الصيانة'],['topServices','أشهر خدماته'],['techs','عدد الفنيين'],['vehicle','وسائل التنقّل'],['range','نطاق التغطية'],['branch','فرع ثاني'],['terminal','جهاز الشبكة'],['wallets','STC Pay وبرق'],['appPay','الدفع عن طريق التطبيق'],['warranty','ضمان'],['fee','رسوم الزيارة'],['phones','جوالات الفنيين'],['notes','ملاحظات'],['map','الموقع']];
 const tsv = recs => [COLS.map(c=>c[1]).join('\t')].concat(recs.map(r=>COLS.map(c=>String((r.row||{})[c[0]]??'').replace(/[\t\n\r]+/g,' ')).join('\t'))).join('\n');
 
 /* ---------- الحفظ ---------- */
@@ -441,7 +537,8 @@ document.addEventListener('input',e=>{
   set(p,e.target.value); saveDraft();
   const w=document.querySelector(`[data-wrap="${p}"]`);
   if(w&&w.classList.contains('key')){const ok=filled(p);w.classList.toggle('ok',ok);const t=w.querySelector('.tag');if(t)t.textContent=ok?'✓':(lang==='dual'?T.key[0]:tx(T.key))}
-  const hint=document.querySelector(`[data-phone-hint="${p}"]`); if(hint) hint.hidden=!e.target.value||phoneOk(e.target.value);
+  const hint=document.querySelector(`[data-for="${p}"]`); if(hint) hint.hidden=!e.target.value||(hint.dataset.check==='cr'?crOk(e.target.value):phoneOk(e.target.value));
+  if(p==='shop.cr'&&e.target.value&&S.shop.crState){ S.shop.crState=''; document.querySelectorAll('[data-path="shop.crState"]').forEach(x=>x.setAttribute('aria-pressed','false')); }
   if(p==='othText.cats'){const g=document.querySelector('.f.key:has([data-k="cat"])');if(g){const ok=filled('#serv');g.classList.toggle('ok',ok);const t=g.querySelector('.tag');if(t)t.textContent=ok?'✓':(lang==='dual'?T.key[0]:tx(T.key))}}
   renderBar();
 });
@@ -463,7 +560,7 @@ document.addEventListener('click',e=>{
   const k=b.dataset.k; if(!k) return;
   const v=b.dataset.v, p=b.dataset.path;
   if(k==='oth'){ S.oth[v]=!S.oth[v]; saveDraft(); render(); const i=document.getElementById('o-'+v); if(i) i.focus(); return; }
-  if(k==='cat'){ const st=S.cats[v]||(S.cats[v]={on:false,types:[],off:[],piv:{},other:''}); st.on=!st.on; }
+  if(k==='cat'){ const st=S.cats[v]||(S.cats[v]={on:false,types:[],off:(v==='ac'?{}:[]),piv:{},top:''}); st.on=!st.on; }
   else if(k==='one'){ set(p, get(p)===v?'':v); }
   else if(k==='many'){ const a=(get(p)||[]).slice(); const i=a.indexOf(v); i<0?a.push(v):a.splice(i,1); set(p,a); }
   saveDraft(); render();
