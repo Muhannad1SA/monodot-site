@@ -167,6 +167,9 @@ const T = {
   saved:['تم حفظ المحل','دکان محفوظ ہو گئی','Shop saved'],
   synced:['وصل للفريق','ٹیم تک پہنچ گیا','Sent to the team'],
   local:['محفوظ على هذا الجوال فقط. أرسله للفريق بالواتساب.','صرف اس فون میں محفوظ ہے۔ واٹس ایپ سے ٹیم کو بھیجیں۔','Saved on this phone only. Send it to the team on WhatsApp.'],
+  notSent:['ما وصل للفريق للحين (تأكد من النت). محفوظ على جوالك، واضغط «أعد الإرسال».','ابھی ٹیم تک نہیں پہنچا (انٹرنیٹ چیک کریں)۔ فون میں محفوظ ہے، «دوبارہ بھیجیں» دبائیں۔','Not sent to the team yet (check internet). Saved on this phone; tap Retry.'],
+  retry:['أعد الإرسال','دوبارہ بھیجیں','Retry'],
+  sending:['جاري الإرسال…','بھیجا جا رہا ہے…','Sending…'],
   wa:['أرسل بالواتساب','واٹس ایپ پر بھیجیں','Send on WhatsApp'],
   copy:['انسخ الملخص','خلاصہ کاپی کریں','Copy summary'],
   copied:['تم النسخ','کاپی ہو گیا','Copied'],
@@ -359,14 +362,32 @@ const COLS=[['date','التاريخ'],['agent','الموظف'],['shop','المح
 const tsv = recs => [COLS.map(c=>c[1]).join('\t')].concat(recs.map(r=>COLS.map(c=>String((r.row||{})[c[0]]??'').replace(/[\t\n\r]+/g,' ')).join('\t'))).join('\n');
 
 /* ---------- الحفظ ---------- */
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxNcW_1jnjyB0uahhhK_7bic6kMd6GtxfRD082zTmpkzmioCj9Ke5Vxow42X9DDEnPAnA/exec';
+const canSync = () => !!db || /^https:/.test(SHEET_URL);
 async function pushRec(rec){
-  if(!db) return false;
-  try{ await db.collection('shops').doc(rec.id).set({row:rec.row,text:rec.text,data:rec.data}); rec.synced=true; LS.set('shopSurvey.saved',mine); return true; }catch(e){ return false; }
+  if(db){
+    try{ await db.collection('shops').doc(rec.id).set({row:rec.row,text:rec.text,data:rec.data}); rec.synced=true; LS.set('shopSurvey.saved',mine); return true; }catch(e){ return false; }
+  }
+  if(!/^https:/.test(SHEET_URL)) return false;
+  try{
+    const ctl = new AbortController(); const tm = setTimeout(()=>ctl.abort(), 25000);
+    const r = await fetch(SHEET_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({code:LS.get('shopSurvey.code',''),id:rec.id,row:rec.row}),signal:ctl.signal});
+    clearTimeout(tm);
+    const j = await r.json();
+    if(j && j.ok){ rec.synced=true; LS.set('shopSurvey.saved',mine); return true; }
+  }catch(e){}
+  return false;
+}
+let syncing = false;
+async function syncPending(){
+  if(syncing||!canSync()) return; syncing=true;
+  try{ for(const r of mine.filter(x=>!x.synced)) await pushRec(r); } finally { syncing=false; }
+  if(view==='done') render(); else renderLists();
 }
 async function save(){
   const m=missing();
   if(m.length && !confirmMissing){ confirmMissing=true; renderBar(); return; }
-  const btn=document.getElementById('save'); btn.disabled=true;
+  const btn=document.getElementById('save'); btn.disabled=true; btn.textContent=lang==='dual'?T.sending[0]:tx(T.sending);
   const rec=buildRec(); mine.unshift(rec); LS.set('shopSurvey.saved',mine);
   LS.set('shopSurvey.agent',S.agent); LS.set('shopSurvey.draft',null);
   await pushRec(rec);
@@ -375,7 +396,8 @@ async function save(){
 function doneView(){
   const r=lastRec, one=a=>lang==='dual'?a[0]:tx(a);
   return `<section class="done"><h2>${L(T.saved)}</h2>
-    <div class="status ${r.synced?'ok':'local'}">${L(r.synced?T.synced:T.local)}</div>
+    <div class="status ${r.synced?'ok':'local'}">${L(r.synced?T.synced:(canSync()?T.notSent:T.local))}</div>
+    ${!r.synced&&canSync()?`<button type="button" class="btn" id="retry">${esc(one(T.retry))}</button>`:''}
     <pre class="sum" id="sum" dir="rtl">${esc(r.text)}</pre>
     <div class="acts">
       <a class="btn ${r.synced?'ghost':''}" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(r.text)}">${esc(one(T.wa))}</a>
@@ -388,7 +410,7 @@ function renderLists(){
   const one=a=>lang==='dual'?a[0]:tx(a), box=document.getElementById('lists'); let h='';
   const item=(r,extra)=>`<div class="item"><span>${esc((r.row||{}).shop||'—')} · ${esc((r.row||{}).district||'')}</span><small>${extra}</small></div>`;
   if(mine.length){ const pend=mine.filter(r=>!r.synced).length;
-    h+=`<details><summary>${esc(one(T.mine))} (${mine.length})</summary><div class="list">${mine.map(r=>item(r,r.synced?esc(one(T.synced)):esc(one(T.onPhone)))).join('')}</div><div class="acts"><button type="button" class="btn ghost sm" data-tsv="mine">${esc(one(T.copyAll))}</button>${db&&pend?`<button type="button" class="btn sm" id="upload">${esc(one(T.upload))} (${pend})</button>`:''}</div><div class="hint" id="flash-mine"></div></details>`; }
+    h+=`<details><summary>${esc(one(T.mine))} (${mine.length})</summary><div class="list">${mine.map(r=>item(r,r.synced?esc(one(T.synced)):esc(one(T.onPhone)))).join('')}</div><div class="acts"><button type="button" class="btn ghost sm" data-tsv="mine">${esc(one(T.copyAll))}</button>${canSync()&&pend?`<button type="button" class="btn sm" id="upload">${esc(one(T.upload))} (${pend})</button>`:''}</div><div class="hint" id="flash-mine"></div></details>`; }
   if(team&&team.length){
     h+=`<details><summary>${esc(one(T.team))} (${team.length})</summary><div class="list">${team.map(r=>item(r,esc(String((r.row||{}).date||'').slice(0,10)))).join('')}</div><div class="acts"><button type="button" class="btn ghost sm" data-tsv="team">${esc(one(T.copyAll))}</button></div><div class="hint" id="flash-team"></div></details>`;
   } else if(db&&teamSlow&&team===null){ h+=`<div class="hint">${esc(one(T.slow))}</div>`; }
@@ -417,7 +439,7 @@ document.addEventListener('click',e=>{
   if(b.dataset.lang){ lang=b.dataset.lang; LS.set('shopSurvey.lang',lang); render(); return; }
   if(b.id==='save'){ save(); return; }
   if(b.id==='newShop'){ S=fresh(); view='form'; lastRec=null; render(); window.scrollTo(0,0); return; }
-  if(b.id==='upload'){ b.disabled=true; (async()=>{for(const r of mine.filter(x=>!x.synced)) await pushRec(r); renderLists();})(); return; }
+  if(b.id==='upload'||b.id==='retry'){ b.disabled=true; b.textContent=lang==='dual'?T.sending[0]:tx(T.sending); syncPending(); return; }
   if(b.dataset.copy){ copyText(document.getElementById(b.dataset.copy).textContent,'flash'); return; }
   if(b.dataset.tsv){ copyText(tsv(b.dataset.tsv==='team'?team:mine),'flash-'+b.dataset.tsv); return; }
   const k=b.dataset.k; if(!k) return;
@@ -443,10 +465,11 @@ document.addEventListener('click',e=>{
 /* ---------- الرقم السري: حاجز خفيف داخل الصفحة، مو حماية خادم ---------- */
 const CODE_HASH = 3845451957;
 const fnv = s => {let h=0x811c9dc5;for(const c of digits(s).trim()){h^=c.charCodeAt(0);h=Math.imul(h,0x01000193)>>>0}return h};
-function unlock(){ document.getElementById('gate').hidden=true; document.getElementById('app').hidden=false; render(); }
-if(LS.get('shopSurvey.unlocked',0)===CODE_HASH) unlock(); else document.getElementById('gate').hidden=false;
+function unlock(){ document.getElementById('gate').hidden=true; document.getElementById('app').hidden=false; render(); syncPending(); }
+if(fnv(LS.get('shopSurvey.code',''))===CODE_HASH) unlock(); else document.getElementById('gate').hidden=false;
+window.addEventListener('online', ()=>syncPending());
 document.getElementById('gate').addEventListener('submit',e=>{ e.preventDefault(); const v=document.getElementById('code').value;
-  if(fnv(v)===CODE_HASH){ LS.set('shopSurvey.unlocked',CODE_HASH); unlock(); } else { document.getElementById('codeErr').hidden=false; } });
+  if(fnv(v)===CODE_HASH){ LS.set('shopSurvey.code',digits(v).trim()); unlock(); } else { document.getElementById('codeErr').hidden=false; } });
 </script>
 </body>
 </html>
