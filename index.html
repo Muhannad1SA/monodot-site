@@ -21,8 +21,11 @@
   h1 { font-size:30px; line-height:1.25; font-weight:600; margin-bottom:16px; }
   p { color:#333; margin-bottom:14px; }
   .tag { display:inline-block; font-size:13px; color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:2px 12px; margin-top:4px; }
-  .contact { margin-top:72px; padding-top:28px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px; }
+  .contact { margin-top:40px; padding-top:28px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px; }
   a { color:var(--ink); }
+  .staff { margin-top:56px; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:8px 24px; padding:16px 20px; border:1px solid var(--line); border-radius:12px; background:#fff; text-decoration:none; }
+  .staff:hover, .staff:focus-visible { border-color:var(--ink); }
+  .staff small { color:var(--muted); font-size:13px; }
   footer { margin-top:28px; font-size:13px; color:var(--muted); display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px; }
   @media (max-width:700px) { .cols { grid-template-columns:1fr; gap:48px; } header { margin-bottom:48px; } }
 </style>
@@ -46,6 +49,11 @@
       <span class="tag">قريبًا على App Store</span>
     </section>
   </div>
+
+  <a class="staff" href="join.html">
+    <span>Maestro Service sign-up <small>· Team only</small></span>
+    <span class="ar" lang="ar">تسجيل في مايسترو سيرفس <small>· لفريق العمل</small></span>
+  </a>
 
   <div class="contact">
     <span>Contact · تواصل معنا: <a href="mailto:team@monodot.app">team@monodot.app</a></span>
