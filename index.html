@@ -1,69 +1,110 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr" data-l="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mono Dot Company | شركة مونو دوت</title>
-<meta name="description" content="Mono Dot Company builds digital products in Riyadh, Saudi Arabia. Our first app, Maestro Service, makes it easy to choose the right service provider.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-<style>
-  :root { --ink:#141414; --muted:#6b6b6b; --line:#e7e5e1; --bg:#faf9f7; }
-  * { box-sizing:border-box; margin:0; padding:0; }
-  body { background:var(--bg); color:var(--ink); font-family:Inter, "IBM Plex Sans Arabic", system-ui, sans-serif; line-height:1.6; }
-  .wrap { max-width:880px; margin:0 auto; padding:56px 24px 40px; }
-  header { display:flex; align-items:center; gap:12px; margin-bottom:72px; }
-  .dot { width:14px; height:14px; border-radius:50%; background:var(--ink); }
-  .brand { font-weight:600; letter-spacing:.02em; }
-  .cols { display:grid; grid-template-columns:1fr 1fr; gap:56px; }
-  .ar { direction:rtl; text-align:right; font-family:"IBM Plex Sans Arabic", system-ui, sans-serif; }
-  h1 { font-size:30px; line-height:1.25; font-weight:600; margin-bottom:16px; }
-  p { color:#333; margin-bottom:14px; }
-  .tag { display:inline-block; font-size:13px; color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:2px 12px; margin-top:4px; }
-  .contact { margin-top:40px; padding-top:28px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px; }
-  a { color:var(--ink); }
-  .staff { margin-top:56px; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:8px 24px; padding:16px 20px; border:1px solid var(--line); border-radius:12px; background:#fff; text-decoration:none; }
-  .staff:hover, .staff:focus-visible { border-color:var(--ink); }
-  .staff small { color:var(--muted); font-size:13px; }
-  footer { margin-top:28px; font-size:13px; color:var(--muted); display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px; }
-  @media (max-width:700px) { .cols { grid-template-columns:1fr; gap:48px; } header { margin-bottom:48px; } }
-</style>
+<meta name="description" content="Mono Dot Company is a technology company in Riyadh, Saudi Arabia, building mobile apps for everyday services. Its first app is Maestro Service.">
+<meta property="og:title" content="Mono Dot Company | شركة مونو دوت">
+<meta property="og:description" content="Mono Dot Company is a technology company in Riyadh, Saudi Arabia, building mobile apps for everyday services. Its first app is Maestro Service.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://monodot.app/">
+<meta property="og:image" content="https://monodot.app/assets/share.png">
+<meta name="theme-color" content="#131316">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/readex-pro-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/site.css">
+<script>(function(){var l,m=/[?&]lang=(ar|en)/.exec(location.search);if(m){l=m[1]}else{try{l=localStorage.getItem('md-lang')}catch(e){}}if(l!=='ar'&&l!=='en'){l=(navigator.language||'en').toLowerCase().indexOf('ar')===0?'ar':'en'}var d=document.documentElement;d.lang=l;d.dir=l==='ar'?'rtl':'ltr';d.setAttribute('data-l',l)})();</script>
 </head>
 <body>
-<div class="wrap">
-  <header><span class="dot"></span><span class="brand">Mono Dot</span></header>
-
-  <div class="cols">
-    <section>
-      <h1>We build simple digital products for everyday needs.</h1>
-      <p>Mono Dot Company is a technology company based in Riyadh, Saudi Arabia.</p>
-      <p>Our first app, <strong>Maestro Service</strong>, makes it easy to choose the right service provider. We start with air-conditioning services, and more services are on the way.</p>
-      <span class="tag">Coming soon on the App Store</span>
-    </section>
-
-    <section class="ar" lang="ar">
-      <h1>نبني منتجات رقمية بسيطة لاحتياجات الحياة اليومية.</h1>
-      <p>شركة مونو دوت شركة تقنية مقرها الرياض، المملكة العربية السعودية.</p>
-      <p>تطبيقنا الأول <strong>مايسترو سيرفس</strong> يسهّل عليك اختيار مزوّد الخدمة المناسب. نبدأ بخدمات التكييف، وخدمات أكثر في الطريق.</p>
-      <span class="tag">قريبًا على App Store</span>
-    </section>
+<a class="skip" href="#main"><span class="l-en" lang="en">Skip to content</span><span class="l-ar" lang="ar">انتقل إلى المحتوى</span></a>
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="index.html"><svg viewBox="0 0 160 160" aria-hidden="true" focusable="false"><circle cx="80" cy="80" r="80" fill="#131316"/><polyline points="52,100 52,60 80,76 108,60 108,100" fill="none" stroke="#fff" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/><circle cx="80" cy="98" r="7" fill="#fff"/></svg><span class="l-en" lang="en">Mono Dot</span><span class="l-ar" lang="ar">مونو دوت</span></a>
+    <nav class="nav" aria-label="Main"><a href="index.html" aria-current="page"><span class="l-en" lang="en">Home</span><span class="l-ar" lang="ar">الرئيسية</span></a><a href="products.html"><span class="l-en" lang="en">Products</span><span class="l-ar" lang="ar">منتجاتنا</span></a><a href="team.html"><span class="l-en" lang="en">Team</span><span class="l-ar" lang="ar">فريق العمل</span></a><a href="contact.html"><span class="l-en" lang="en">Contact</span><span class="l-ar" lang="ar">تواصل معنا</span></a></nav>
+    <button class="lang" type="button" id="lang-toggle"><span class="l-en" lang="en">العربية</span><span class="l-ar" lang="ar">English</span></button>
   </div>
+</header>
+<main id="main">
 
-  <a class="staff" href="join.html">
-    <span>Maestro Service sign-up <small>· Team only</small></span>
-    <span class="ar" lang="ar">تسجيل في مايسترو سيرفس <small>· لفريق العمل</small></span>
-  </a>
-
-  <div class="contact">
-    <span>Contact · تواصل معنا: <a href="mailto:team@monodot.app">team@monodot.app</a></span>
-    <span>Riyadh, Saudi Arabia · الرياض، المملكة العربية السعودية</span>
+<section class="hero">
+  <div class="wrap">
+    <h1 class="l-en" lang="en">Simple digital products for everyday needs<span class="dot" aria-hidden="true"></span></h1>
+    <h1 class="l-ar" lang="ar">منتجات رقمية بسيطة لاحتياجات كل يوم<span class="dot" aria-hidden="true"></span></h1>
+    <p class="l-en lead" lang="en">Mono Dot Company is a technology company in Riyadh, Saudi Arabia. We design and build mobile apps that make everyday services easier to find, compare and book.</p><p class="l-ar lead" lang="ar">شركة مونو دوت شركة تقنية مقرها الرياض، المملكة العربية السعودية. نصمّم ونبني تطبيقات جوال تسهّل الوصول إلى الخدمات اليومية ومقارنتها وحجزها.</p>
+    <div class="actions">
+      <a class="btn" href="products.html"><span class="l-en" lang="en">See our first app</span><span class="l-ar" lang="ar">تعرّف على تطبيقنا الأول</span></a>
+      <a class="btn btn-line" href="contact.html"><span class="l-en" lang="en">Contact the team</span><span class="l-ar" lang="ar">تواصل مع الفريق</span></a>
+    </div>
   </div>
+</section>
 
-  <footer>
-    <span>© 2026 Mono Dot Company (LLC)</span>
-    <span>Commercial Registration · السجل التجاري: 7055515626</span>
-  </footer>
-</div>
+<section class="section band-mist">
+  <div class="wrap split">
+    <div class="stack">
+      <h2 class="l-en" lang="en">How we build</h2><h2 class="l-ar" lang="ar">كيف نبني</h2>
+      <p class="l-en muted" lang="en">The name says it: one thing, done to the point.</p><p class="l-ar muted" lang="ar">الاسم يختصرها: شيء واحد، نتقنه.</p>
+    </div>
+    <ul class="rows">
+      <li><h3 class="l-en" lang="en">One need at a time</h3><h3 class="l-ar" lang="ar">حاجة واحدة في كل مرة</h3><p class="l-en" lang="en">Each product starts from a single everyday need and solves it well before it grows into anything else.</p><p class="l-ar" lang="ar">يبدأ كل منتج من حاجة يومية واحدة، ويحلّها جيدًا قبل أن يتوسّع إلى غيرها.</p></li>
+      <li><h3 class="l-en" lang="en">Made for Saudi Arabia</h3><h3 class="l-ar" lang="ar">مصمَّم للسعودية</h3><p class="l-en" lang="en">Arabic first, and designed around how people here look for a service, agree on it and pay for it.</p><p class="l-ar" lang="ar">العربية أولًا، وبتصميم يراعي طريقة الناس هنا في البحث عن الخدمة والاتفاق عليها ودفع قيمتها.</p></li>
+      <li><h3 class="l-en" lang="en">Plain and clear</h3><h3 class="l-ar" lang="ar">واضح ومباشر</h3><p class="l-en" lang="en">Clear prices, clear steps, and nothing on the screen that does not help you decide.</p><p class="l-ar" lang="ar">أسعار واضحة وخطوات واضحة، ولا شيء على الشاشة لا يساعدك على القرار.</p></li>
+    </ul>
+  </div>
+</section>
+
+<section class="section band-ink">
+  <div class="wrap split">
+    <div class="stack">
+      <p class="l-en product-name" lang="en">Maestro Service</p><p class="l-ar product-name" lang="ar">مايسترو سيرفس</p>
+      <h2 class="l-en" lang="en">Our first app helps you choose the right service provider</h2><h2 class="l-ar" lang="ar">تطبيقنا الأول يساعدك على اختيار مزوّد الخدمة المناسب</h2>
+      <p class="l-en muted" lang="en">Maestro Service connects customers with licensed home-maintenance providers. You describe what you need, compare providers on price, rating and warranty, and book a visit.</p><p class="l-ar muted" lang="ar">يربط مايسترو سيرفس العملاء بمزوّدي خدمات الصيانة المنزلية المرخّصين. تصف ما تحتاجه، وتقارن بين المزوّدين في السعر والتقييم والضمان، ثم تحجز الزيارة.</p>
+      <div class="actions"><a class="btn" href="products.html"><span class="l-en" lang="en">Read about Maestro Service</span><span class="l-ar" lang="ar">اقرأ عن مايسترو سيرفس</span></a></div>
+    </div>
+    <ul class="services" aria-label="Services">
+      <li class="live"><span class="l-en" lang="en">Air conditioning</span><span class="l-ar" lang="ar">المكيفات</span><small><span class="l-en" lang="en">At launch</span><span class="l-ar" lang="ar">عند الإطلاق</span></small></li>
+      <li><span class="l-en" lang="en">Plumbing</span><span class="l-ar" lang="ar">السباكة</span><small><span class="l-en" lang="en">Next</span><span class="l-ar" lang="ar">لاحقًا</span></small></li>
+      <li><span class="l-en" lang="en">Electrical</span><span class="l-ar" lang="ar">الكهرباء</span><small><span class="l-en" lang="en">Next</span><span class="l-ar" lang="ar">لاحقًا</span></small></li>
+      <li><span class="l-en" lang="en">Washing machines</span><span class="l-ar" lang="ar">الغسالات</span><small><span class="l-en" lang="en">Next</span><span class="l-ar" lang="ar">لاحقًا</span></small></li>
+    </ul>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap stack-lg">
+    <h2 class="l-en" lang="en">Write to us</h2><h2 class="l-ar" lang="ar">راسلنا</h2>
+    <p><a class="mail" href="mailto:team@monodot.app">team@monodot.app</a></p>
+    <p class="l-en muted" lang="en">For partnerships, service providers who want to join Maestro Service, and general questions.</p><p class="l-ar muted" lang="ar">للشراكات، ولمزوّدي الخدمات الراغبين في الانضمام إلى مايسترو سيرفس، وللاستفسارات العامة.</p>
+  </div>
+</section>
+
+</main>
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a class="brand" href="index.html"><svg viewBox="0 0 160 160" aria-hidden="true" focusable="false"><circle cx="80" cy="80" r="80" fill="#131316"/><polyline points="52,100 52,60 80,76 108,60 108,100" fill="none" stroke="#fff" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/><circle cx="80" cy="98" r="7" fill="#fff"/></svg><span class="l-en" lang="en">Mono Dot</span><span class="l-ar" lang="ar">مونو دوت</span></a>
+        <p class="l-en" lang="en">Mono Dot Company, a limited liability company registered in Riyadh, Saudi Arabia.</p><p class="l-ar" lang="ar">شركة مونو دوت، شركة ذات مسؤولية محدودة مسجّلة في الرياض، المملكة العربية السعودية.</p>
+        <p class="l-en" lang="en">Commercial Registration <span class="ltr">7055515626</span></p><p class="l-ar" lang="ar">السجل التجاري <span class="ltr">7055515626</span></p>
+      </div>
+      <ul>
+        <li><a href="products.html"><span class="l-en" lang="en">Products</span><span class="l-ar" lang="ar">منتجاتنا</span></a></li>
+        <li><a href="team.html"><span class="l-en" lang="en">Team</span><span class="l-ar" lang="ar">فريق العمل</span></a></li>
+        <li><a href="contact.html"><span class="l-en" lang="en">Contact</span><span class="l-ar" lang="ar">تواصل معنا</span></a></li>
+      </ul>
+      <ul>
+        <li><a href="privacy.html"><span class="l-en" lang="en">Privacy policy</span><span class="l-ar" lang="ar">سياسة الخصوصية</span></a></li>
+        <li><a href="terms.html"><span class="l-en" lang="en">Terms of use</span><span class="l-ar" lang="ar">شروط الاستخدام</span></a></li>
+        <li><a href="join.html" rel="nofollow"><span class="l-en" lang="en">Team portal</span><span class="l-ar" lang="ar">بوابة الفريق</span></a></li>
+      </ul>
+    </div>
+    <div class="base">
+      <span>© 2026 Mono Dot Company</span>
+      <a class="ltr" href="mailto:team@monodot.app">team@monodot.app</a>
+    </div>
+  </div>
+</footer>
+<script src="assets/site.js"></script>
 </body>
 </html>
